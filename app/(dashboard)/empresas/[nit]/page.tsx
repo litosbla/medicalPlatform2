@@ -13,19 +13,7 @@ import { useToast } from "@/hooks/use-toast"
 import { DialogImportarEmpleados } from '@/components/empresas/dialogImportarEmpleados';
 import { DialogCrearSedes } from '@/components/empresas/dialogCrearSedes';
 import SedeComponent from '@/components/empresas/sedeComponent';
-import Estadisticas from '@/components/empresas/estadisticas';
-import GraficosHpta from '@/components/empresas/graficosHpta';
-import ScrollAreaComponent from '@/components/scrollAreaComponent';
-import { Card, CardContent } from "@/components/ui/card"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-  type CarouselApi,
-} from "@/components/ui/carousel"
-
+import { useRouter } from 'next/navigation'
 interface Option {
   value: string;
   label: string;
@@ -40,7 +28,7 @@ const options = [
     { value: 'trabajo', label: 'Puesto de Trabajo' }
   ];
 function PaginaEmpresa({params}:{params:{nit:string}}) {
- 
+    const router = useRouter()
     const { toast } = useToast()
     const {nit} = params
     const [empresa, setEmpresa] = useState<Array<Schema["Empresa"]["type"]>>([]);
@@ -53,7 +41,7 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
     const [currentExtralaboral,setCurrentExtralaboral] = useState<Array<Schema["FormularioExtralaboral"]["type"]>>([]);
     const [currentEstres,setCurrentEstres] = useState<Array<Schema["FormularioEstres"]["type"]>>([]);
     const [isOpen, setIsOpen] = useState(false);
-    const [isEmpleado, setIsEmpleado] = useState(false);
+    const [isEmpleado, setIsEmpleado] = useState(true);
     const [isCita, setIsCita] = useState(false);
     const [isOpenCita, setIsOpenCita] = useState(false);
     const [selectedOption, setSelectedOption] = useState<Option>({ value: 'bateria', label: 'Bateria de Riesgo Psicosocial' });
@@ -148,8 +136,8 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
 
     };
     const handleEstadisticas = () => {
-      setIsEmpleado(false);
-      setIsCita(false);
+      router.push(`/empresas/${nit}/estadisticas`);
+
     };
     const handleCitas = () => {
       setIsEmpleado(false);
@@ -274,6 +262,10 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
       }
     };
 
+    const citasPorSede = async (sede:any) => {
+      const { data: citas } = await sede.citas();
+      return citas;
+    }
    
   return (
     <div>
@@ -419,30 +411,13 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
     
                   ): (selectedOption.value === 'bateria') ? (
                     sedes.length > 0 ? (
-                      // sedes.map((sede, index) => {
-                      //   const chartData = {
-                      //     // Aquí puedes definir la estructura de datos que necesitas para cada sede
-                      //     labels: sede.datos.map(item => item.fecha),
-                      //     values: sede.datos.map(item => item.valor),
-                      //     nombre: sede.nombre
-                      //   };
-                        
-                      //   return (
-                      //     <div className='flex w-full gap-4'>
-                      //         <GraficoBarras chartData={chartData6} title='Riesgo Actual' className='w-[50%]'/>
-                      //     </div>
-                      //     <div className='flex flex-wrap w-full gap-4'>         
-                      //         <GraficoLineas chartData={chartData5} title='Historico de Riesgo' className='flex-1' />
-                      //         <GraficoPie chartData={chartData1} title='Liderazgo y Relaciones Sociales en el Trabajo'/>
-                      //         <GraficoPie chartData={chartData2} title='Control Sobre el trabajo'/>
-                      //         <GraficoPie chartData={chartData3} title='Demandas del Trabajo'/>
-                      //         <GraficoPie chartData={chartData4} title='Recompensas'/>
-                      //     </div> 
-                      //   );
-                      // })
-                      <div>
-                        holaa
-                      </div>
+                     <>
+                      {sedes.map( sede => (
+                        <div>
+                          hola si ves esto es un error
+                        </div>
+                      ))}
+                      </>
                     ) : (
                       <div className='w-full h-[600px] flex items-center justify-center'>No hay sedes aún</div>
                     )

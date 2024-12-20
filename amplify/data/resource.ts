@@ -57,6 +57,7 @@ const schema = a.schema({
       .model({
         citaId: a.id().required(),
         cita: a.belongsTo("Citas","citaId"),
+        sedeId: a.id(),
         documento: a.id(),
         formularioId: a.id().required(),
         sexo: a.enum(["Masculino", "Femenino"]),
@@ -133,6 +134,7 @@ const schema = a.schema({
         formularioId: a.id().required(),
         citaIdIntraA: a.id().required(),
         cita: a.belongsTo("Citas","citaIdIntraA"),
+        sedeId: a.id(),
         documento: a.id().required(),
         empresaId: a.id(),
         controlSobreTrabajo: a.customType({
@@ -270,6 +272,7 @@ const schema = a.schema({
       formularioId: a.id().required(),
       citaIdIntraB: a.id().required(),
       cita: a.belongsTo("Citas","citaIdIntraB"),
+      sedeId: a.id(),
       documento: a.id().required(),
       empresaId: a.id(),
       controlSobreTrabajo: a.customType({
@@ -410,6 +413,7 @@ const schema = a.schema({
     .model({
       citaIdExtra: a.id().required(),
       cita: a.belongsTo("Citas","citaIdExtra"),
+      sedeId: a.id(),
       documento: a.id().required(),
       formularioId: a.id().required(),
       empresaId: a.id(),
@@ -469,6 +473,7 @@ const schema = a.schema({
     .model({
       citaIdEstres: a.id().required(),
       cita: a.belongsTo("Citas","citaIdEstres"),
+      sedeId: a.id(),
       documento: a.id().required(),
       formularioId: a.id().required(),
       empresaId: a.id(),

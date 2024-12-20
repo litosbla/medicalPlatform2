@@ -73,7 +73,27 @@ export default function Estadisticas({citas, sedes, controladorSedes }: Estadist
         // setCurrentCita(citas[])
        })
      }, [api])
-
+ // sedes.map((sede, index) => {
+                      //   const chartData = {
+                      //     // Aquí puedes definir la estructura de datos que necesitas para cada sede
+                      //     labels: sede.datos.map(item => item.fecha),
+                      //     values: sede.datos.map(item => item.valor),
+                      //     nombre: sede.nombre
+                      //   };
+                        
+                      //   return (
+                      //     <div className='flex w-full gap-4'>
+                      //         <GraficoBarras chartData={chartData6} title='Riesgo Actual' className='w-[50%]'/>
+                      //     </div>
+                      //     <div className='flex flex-wrap w-full gap-4'>         
+                      //         <GraficoLineas chartData={chartData5} title='Historico de Riesgo' className='flex-1' />
+                      //         <GraficoPie chartData={chartData1} title='Liderazgo y Relaciones Sociales en el Trabajo'/>
+                      //         <GraficoPie chartData={chartData2} title='Control Sobre el trabajo'/>
+                      //         <GraficoPie chartData={chartData3} title='Demandas del Trabajo'/>
+                      //         <GraficoPie chartData={chartData4} title='Recompensas'/>
+                      //     </div> 
+                      //   );
+                      // })
 
     
   return (
@@ -100,7 +120,7 @@ export default function Estadisticas({citas, sedes, controladorSedes }: Estadist
                   </Carousel>
                   <div className="ml-20 flex-grow text-center text-sm text-muted-foreground ">
                       <ScrollAreaComponent datos={currentCita}/>
-                    
+                     
                   </div>
             </div>
            
