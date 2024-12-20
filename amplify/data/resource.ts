@@ -61,6 +61,7 @@ const schema = a.schema({
         formularioId: a.id().required(),
         sexo: a.enum(["Masculino", "Femenino"]),
         anoNacimiento: a.string(),
+        empresaId: a.id(),
         estadoCivil: a.enum([
           "Soltero",
           "Casado",
@@ -133,6 +134,7 @@ const schema = a.schema({
         citaIdIntraA: a.id().required(),
         cita: a.belongsTo("Citas","citaIdIntraA"),
         documento: a.id().required(),
+        empresaId: a.id(),
         controlSobreTrabajo: a.customType({
           nivelRiesgo: a.string(),
           puntajeTransformado: a.float(),
@@ -165,7 +167,6 @@ const schema = a.schema({
             })
           })
         }),
-    
 
         demandasTrabajo: a.customType({
           nivelRiesgo: a.string(),
@@ -215,7 +216,6 @@ const schema = a.schema({
           })
         }),
     
-       
         liderazgoRelacionesSociales: a.customType({
           nivelRiesgo: a.string(),
           puntajeTransformado: a.float(),
@@ -244,7 +244,6 @@ const schema = a.schema({
           })
         }),
     
-      
         recompensas: a.customType({
           nivelRiesgo: a.string(),
           puntajeTransformado: a.float(),
@@ -272,6 +271,7 @@ const schema = a.schema({
       citaIdIntraB: a.id().required(),
       cita: a.belongsTo("Citas","citaIdIntraB"),
       documento: a.id().required(),
+      empresaId: a.id(),
       controlSobreTrabajo: a.customType({
         nivelRiesgo: a.string(),
         puntajeTransformado: a.float(),
@@ -412,7 +412,7 @@ const schema = a.schema({
       cita: a.belongsTo("Citas","citaIdExtra"),
       documento: a.id().required(),
       formularioId: a.id().required(),
-      
+      empresaId: a.id(),
       // Características de vivienda
       caracteristicasVivienda: a.customType({
         nivelRiesgo: a.string(),
@@ -471,7 +471,7 @@ const schema = a.schema({
       cita: a.belongsTo("Citas","citaIdEstres"),
       documento: a.id().required(),
       formularioId: a.id().required(),
-
+      empresaId: a.id(),
       // Comunicación y relaciones
       comunicacionRelaciones: a.customType({
         puntajeBruto: a.float(),
