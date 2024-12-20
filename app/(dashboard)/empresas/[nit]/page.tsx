@@ -418,10 +418,35 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
                     )
     
                   ): (selectedOption.value === 'bateria') ? (
-                    <div className='flex flex-col w-full gap-4 mt-4'>
-
-                      <GraficosHpta />
-                    </div>
+                    sedes.length > 0 ? (
+                      // sedes.map((sede, index) => {
+                      //   const chartData = {
+                      //     // Aquí puedes definir la estructura de datos que necesitas para cada sede
+                      //     labels: sede.datos.map(item => item.fecha),
+                      //     values: sede.datos.map(item => item.valor),
+                      //     nombre: sede.nombre
+                      //   };
+                        
+                      //   return (
+                      //     <div className='flex w-full gap-4'>
+                      //         <GraficoBarras chartData={chartData6} title='Riesgo Actual' className='w-[50%]'/>
+                      //     </div>
+                      //     <div className='flex flex-wrap w-full gap-4'>         
+                      //         <GraficoLineas chartData={chartData5} title='Historico de Riesgo' className='flex-1' />
+                      //         <GraficoPie chartData={chartData1} title='Liderazgo y Relaciones Sociales en el Trabajo'/>
+                      //         <GraficoPie chartData={chartData2} title='Control Sobre el trabajo'/>
+                      //         <GraficoPie chartData={chartData3} title='Demandas del Trabajo'/>
+                      //         <GraficoPie chartData={chartData4} title='Recompensas'/>
+                      //     </div> 
+                      //   );
+                      // })
+                      <div>
+                        holaa
+                      </div>
+                    ) : (
+                      <div className='w-full h-[600px] flex items-center justify-center'>No hay sedes aún</div>
+                    )
+                   
                   ) : (
                     <div className="text-gray-600">
                       {selectedOption ? selectedOption.label : "Selecciona una opción"}

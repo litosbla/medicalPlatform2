@@ -476,24 +476,28 @@ const schema = a.schema({
       comunicacionRelaciones: a.customType({
         puntajeBruto: a.float(),
         puntajeTransformado: a.float(),
+        nivelRiesgo: a.string(),
       }),
 
       // Relaciones familiares
       relacionesFamiliares: a.customType({
         puntajeBruto: a.float(),
-        puntajeTransformado: a.float()
+        puntajeTransformado: a.float(),
+        nivelRiesgo: a.string(),
       }),
 
       // Situación económica
       situacionEconomica: a.customType({
         puntajeBruto: a.float(),
-        puntajeTransformado: a.float()
+        puntajeTransformado: a.float(),
+        nivelRiesgo: a.string(),
       }),
 
       // Tiempo fuera del trabajo
       tiempoFueraTrabajo: a.customType({
         puntajeBruto: a.float(),
-        puntajeTransformado: a.float()
+        puntajeTransformado: a.float(),
+        nivelRiesgo: a.string(),
       }),
       puntajeTotal: a.float(),
       nivelRiesgoTotal: a.string(),
