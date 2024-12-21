@@ -89,7 +89,7 @@ export default function Page() {
   
       // Verificar todas las validaciones
       if (Object.values(validaciones).every(v => v)) {
-        router.push(`/riesgopsi/${cita.data?.otp}/${empleado.data?.numeroDocumento}/${empleado.data?.tipoForm}`);
+        router.push(`/riesgopsi/${cita.data?.otp}/${empleado.data?.numeroDocumento}/${empleado.data?.tipoForm}/${sede.data?.idsedes}`);
       } else {
         let mensaje = 'Los datos no son correctos:\n';
         if (!validaciones.citaActiva) mensaje += '- La cita no está activa\n';

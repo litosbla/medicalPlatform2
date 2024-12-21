@@ -1,5 +1,6 @@
 'use client'
 import React from 'react'
+import { Network, Target, TrendingUp, UserPlus, Users } from 'lucide-react';
 import { Label, Pie, PieChart } from "recharts"
 import {
     Card,
@@ -50,7 +51,7 @@ type CardProps = {
     title: string;
     description?: string;
     chartData: ChartItem[];
-    dataDimensiones: any;
+
     className?: string;
   }
 
@@ -66,15 +67,15 @@ interface DominioLiderazgo {
   }
 
 
-function GraficoPie({
+function GraficoPie2({
     title,
     description="Evaluación Actual",
     chartData,
-    dataDimensiones,
+
     className,
   }: CardProps) {
    
-    console.log(dataDimensiones)
+
     const totalPersonas = React.useMemo(() => {
         return chartData.reduce((acc, curr) => acc + curr.personas, 0)
     }, [])
@@ -104,8 +105,7 @@ function GraficoPie({
         return shadowMap[riesgo] || '';
     };
 
-    
-      
+      console.log("holaaaaaaaaaa",chartData)
 
     return (
         <div className='flex border rounded-2xl shadow-md bg-gray-50  md:w-full xl:w-full lg:w-full justify-between'>
@@ -186,39 +186,8 @@ function GraficoPie({
                     </div>
                 </CardFooter>
             </Card>
-            <div className='w-[60%] p-4 flex flex-col justify-center ml-4 gap-5'>
-                <h3 className="text-lg font-bold mb-2 text-center">Puntaje Promedios por dimension</h3>
-                <div className='mt-2 max-h-80 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent'>
-                <div className="space-y-1">
-                    {dataDimensiones.map((dominio: DominioLiderazgo, index: number) => (
-                        <Card key={index} className="bg-white shadow hover:shadow-md transition-shadow duration-300">
-                        <CardContent className="p-3">
-                            <div className="flex items-center justify-between gap-2">
-                            <h3 className="text-sm font-medium text-gray-800 flex-1">
-                                {dominio.titulo}
-                            </h3>
-                            <div className="flex items-center gap-2">
-                                <div className={`text-base font-bold ${dominio.color} min-w-[2.5rem] text-right`}>
-                                {Math.round(dominio.valor * 100) / 100}
-                                </div>
-                                <div className="w-16 h-1.5 bg-gray-200 rounded-full">
-                                <div 
-                                    className="h-full bg-blue-600 rounded-full"
-                                    style={{
-                                    width: `${(dominio.valor / 100) * 100}%`
-                                    }}
-                                />
-                                </div>
-                            </div>
-                            </div>
-                        </CardContent>
-                        </Card>
-                    ))}
-                    </div>
-                </div>
-            </div>
         </div>
     )
 }
 
-export default GraficoPie
+export default GraficoPie2

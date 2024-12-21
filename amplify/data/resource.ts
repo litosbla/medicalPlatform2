@@ -267,6 +267,8 @@ const schema = a.schema({
         nivelRiesgoTotal: a.string(),
         servicioCliente: a.enum(["si", "no"]),
       }).identifier(["formularioId"]),
+
+      
     FormularioIntralaboralB: a
     .model({
       formularioId: a.id().required(),
@@ -314,11 +316,6 @@ const schema = a.schema({
         puntajeTransformado: a.float(),
         puntajeBruto: a.float(),
         dimensiones: a.customType({
-          consistenciaRol: a.customType({
-            nivelRiesgo: a.string(),
-            puntajeTransformado: a.float(),
-            puntajeBruto: a.float(),
-          }),
           demandaCargaMental: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
@@ -364,11 +361,6 @@ const schema = a.schema({
         puntajeBruto: a.float(),
         dimensiones: a.customType({
           caracteristicasLiderazgo: a.customType({
-            nivelRiesgo: a.string(),
-            puntajeTransformado: a.float(),
-            puntajeBruto: a.float(),
-          }),
-          relacionColaboradores: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
             puntajeBruto: a.float(),

@@ -6,19 +6,21 @@ import { data, type Schema } from "@/amplify/data/resource";
 import { Amplify } from "aws-amplify";
 import outputs from "@/amplify_outputs.json";
 import React, { useEffect, useState } from 'react'
-import { Building2 } from "lucide-react";
+
 
 Amplify.configure(outputs);
 
-
+interface SedeControllerProps {
+    /** ID de la empresa */
+    nit: string;
+    /** Función callback que se ejecuta cuando cambia la sede seleccionada */
+    onchanging: (sedeId: any) => void;
+  }
 const client = generateClient<Schema>();
-export default function Dashboardresultados({nit}:{nit:string}) {
-    const [currentIntraA,setCurrentIntraA] = useState<Array<Schema["FormularioIntralaboralA"]["type"]>>([]);
-    const [currentIntrB,setCurrentIntraB] = useState<Array<Schema["FormularioIntralaboralB"]["type"]>>([]);
-    const [currentExtralaboral,setCurrentExtralaboral] = useState<Array<Schema["FormularioExtralaboral"]["type"]>>([]);
-    const [currentEstres,setCurrentEstres] = useState<Array<Schema["FormularioEstres"]["type"]>>([]);
+export default function SedeController({nit, onchanging}:SedeControllerProps) {
+    
     const [sedes,setSedes] = useState<Array<Schema["Sedes"]["type"]>>([]);
-    const [citas,setCitas] = useState<Array<Schema["Citas"]["type"]>>([]);
+   
     const prevSedesRef = React.useRef<Array<Schema["Sedes"]["type"]>>([]);
     function listSedes() {
           client.models.Sedes.observeQuery({
@@ -41,68 +43,33 @@ export default function Dashboardresultados({nit}:{nit:string}) {
         
         }
     
-        function listCitas() {
-          client.models.Citas.observeQuery().subscribe({
-            next: (data) => setCitas([...data.items]),
-          });}
-        
-          function listCurrentIntraA() {
-            client.models.FormularioIntralaboralA.observeQuery({
-            }).subscribe({
-              next: (data) => setCurrentIntraA([...data.items]),
-            });
-        }
-        function listCurrentIntraB() {
-            client.models.FormularioIntralaboralB.observeQuery({
-            }).subscribe({
-              next: (data) => setCurrentIntraB([...data.items]),
-            });
-        }
-        function listCurrentExtra() {
-            client.models.FormularioExtralaboral.observeQuery({
-            }).subscribe({
-              next: (data) => setCurrentExtralaboral([...data.items]),
-            });
-        }
-        function listCurrentEstres() {
-          client.models.FormularioEstres.observeQuery({
-          }).subscribe({
-            next: (data) => setCurrentEstres([...data.items]),
-          });
-        }
+      
        
         useEffect(() => {
           listSedes();
-          listCitas();
-          listCurrentIntraA();
-          listCurrentIntraB();
-          listCurrentExtra();
-          listCurrentEstres();
         }, []);
     
   return (
-    <div>
-        {sedes.length > 0 ? (
-            <>
-            {sedes.map((sede) => {
-            console.log("se renderiza")
-            
-            return(
-                <div key={sede.idsedes}>
-                    <h1>{sede.nombre}</h1>
-                    <h1>{sede.direccion}</h1>
-                    <div className="flex flex-wrap">
-                        
-                    </div>
-                </div>
-                );
-            
-            })
-           
-        }
-         </>) : (<div>no hay sedes</div>)}
-
-    </div>
-
+    <div className="p-4">
+    {sedes.length > 0 ? (
+      <select 
+        onChange={(e) => onchanging(e.target.value)}
+        className="w-full p-2 border rounded-md shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+        defaultValue=""
+      >
+        <option value="" disabled>Selecciona una sede</option>
+        {sedes.map((sede) => (
+          <option 
+            key={sede.idsedes} 
+            value={sede.idsedes}
+          >
+            {sede.nombre} - {sede.direccion}
+          </option>
+        ))}
+      </select>
+    ) : (
+      <div className="text-gray-500">loading</div>
+    )}
+  </div>
   )
 }

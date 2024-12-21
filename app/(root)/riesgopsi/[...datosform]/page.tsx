@@ -452,10 +452,9 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
     // }
     // subirprueba(dataTest);
 
-    
     const { toast } = useToast()
     const router = useRouter();
-    const [otp, numeroDocumento, tipoForm] = params.datosform;
+    const [otp, numeroDocumento, tipoForm, sedeId] = params.datosform;
   
 
     const subirPersonales = async (data: any) => {
@@ -465,7 +464,6 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
         citaId: otp,
         documento: numeroDocumento,
         formularioId: `${otp}_${numeroDocumento}` // Unión de otp y documentoId
-      
       };
 
       console.log(datosCompletos);
@@ -668,7 +666,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
         formularioId: `${otp}_${numeroDocumento}`,
         servicioCliente: clientService as 'si' | 'no',
         puntajeTotal: puntajeFinal,
-        nivelRiesgo: nivelRiesgoFinal
+        nivelRiesgoTotal: nivelRiesgoFinal
       };
 
       console.log(datosCompletos);
@@ -677,7 +675,6 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
       setExtralaboral(true);
  
     };
-
 
 
     const subirExtralaboral = async (data: Record<string, string>) => {
