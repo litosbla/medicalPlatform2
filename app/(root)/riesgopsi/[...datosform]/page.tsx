@@ -881,8 +881,8 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
       setUltimaPantalla(true);
     }
 
-
-    const [personales, setPersonales] = useState(true);
+    const [consentimiento, setConsentimiento] = useState(true);
+    const [personales, setPersonales] = useState(false);
     const [intralaboral, setIntralaboral] = useState(false);
     const [extralaboral, setExtralaboral] = useState(false);
     const [estres, setEstres] = useState(false);
@@ -897,13 +897,66 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
     //   }
     // }, [ultimapantalla]);
 
-    
+    const onChangeconsentimiento = () => {
+      setConsentimiento(false);
+      setPersonales(true);
+    }
 
   return (
-    <div className="w-full flex justify-center p-6 bg-white min-h-max">
+    <div className="w-full flex justify-center p-6 bg-white min-h-[100vh]">
+   
       <Link href={"/"} className="fixed top-6 left-6 text-black flex items-center">
           <Home size={24} className="text-green-500 mr-3" />  Volver al inicio
       </Link>
+      {consentimiento && (
+         <div className="max-w-3xl mx-auto p-6 z-20">
+         <div className="bg-white border border-green-200 rounded-lg p-6 shadow-sm">
+           <div className="space-y-4">
+             <h2 className="text-xl font-semibold text-green-500">
+               Consentimiento Informado - Evaluación de Riesgo Psicosocial
+             </h2>
+             
+             <div className="space-y-4 text-gray-700">
+               <p>
+                 Por medio del presente documento, se le informa que los datos a recopilar
+                 serán utilizados con el único fin de evaluar y gestionar la batería de riesgo 
+                 psicosocial en su entorno laboral.
+               </p>
+   
+               <div>
+                 <p className="mb-2">La información proporcionada será:</p>
+                 <ul className="list-disc pl-6 space-y-1">
+                   <li>Tratada con estricta confidencialidad</li>
+                   <li>Almacenada de forma segura</li>
+                   <li>Utilizada únicamente para fines de evaluación y mejora del ambiente laboral</li>
+                   <li>Manejada según las normativas de protección de datos vigentes</li>
+                 </ul>
+               </div>
+   
+               
+   
+               <div className="flex items-center space-x-2 mt-6">
+                 <input
+                   type="checkbox"
+                   id="consentimiento"
+                   checked={false}
+                   onChange={onChangeconsentimiento}
+                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer bg-white"
+                 />
+                 <label 
+                   htmlFor="consentimiento" 
+                   className="text-sm text-gray-700 cursor-pointer"
+                 >
+                   He leído y acepto el consentimiento informado para la batría de riesgo psicosocial
+                 </label>
+               </div>
+             </div>
+           </div>
+         </div>
+   
+      
+       </div>
+      )}
       {personales && (<FormPersonales onHitSubmit={subirPersonales} />)}
       {intralaboral && (
         tipoForm === 'A' ? (
