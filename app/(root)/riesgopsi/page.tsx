@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button"
 
 import { useRouter } from 'next/navigation'
 
-
+import Image from 'next/image'
 Amplify.configure(outputs);
 
 const client = generateClient<Schema>();
@@ -105,8 +105,16 @@ export default function Page() {
   };
 
   return (
-    <div className='w-full h-full flex items-center justify-center'>
-    <div className="max-w-md mx-auto p-8 bg-white rounded-lg shadow-xl">
+    <div className='w-full h-[100vh] flex items-center justify-center bg-white flex-col'>
+      <Image
+            src="/assets/Logo-sidebar.svg"     // La imagen debe estar en la carpeta public
+            alt="ministerio"
+            width={300}
+            height={500}
+            priority     
+            className="mb-5"    // Para imágenes above the fold
+          />
+    <div className="max-w-md mx-auto p-8 bg-white rounded-lg shadow-xl ">
       <div className="mb-8">
         <h1 className='text-black mb-4 text-xl w-full text-center'>Digita tu documento de identidad</h1>
         <input
@@ -150,6 +158,22 @@ export default function Page() {
         
 
       </div>
+    </div>
+    <div className="absolute bottom-4 right-4 w-full flex justify-evenly">
+      <Image
+            src="/assets/logo_ministerio_salud.png"     // La imagen debe estar en la carpeta public
+            alt="ministerio"
+            width={150}
+            height={100}
+            priority         // Para imágenes above the fold
+          />
+       <Image
+          src="/assets/jav2-logo.png"     // La imagen debe estar en la carpeta public
+          alt="Javeriana"
+          width={150}
+          height={100}
+          priority         // Para imágenes above the fold
+        />
     </div>
     </div>
   )

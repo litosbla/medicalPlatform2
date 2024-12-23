@@ -882,8 +882,8 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
     }
 
 
-    const [personales, setPersonales] = useState(false);
-    const [intralaboral, setIntralaboral] = useState(true);
+    const [personales, setPersonales] = useState(true);
+    const [intralaboral, setIntralaboral] = useState(false);
     const [extralaboral, setExtralaboral] = useState(false);
     const [estres, setEstres] = useState(false);
     const [ultimapantalla, setUltimaPantalla] = useState(false);
