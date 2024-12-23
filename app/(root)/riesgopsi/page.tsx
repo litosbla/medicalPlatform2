@@ -114,7 +114,7 @@ export default function Page() {
             priority     
             className="mb-5"    // Para imágenes above the fold
           />
-    <div className="max-w-md mx-auto p-8 bg-white rounded-lg shadow-xl ">
+    <div className="max-w-md mx-auto p-8 bg-white rounded-lg shadow-xl z-40">
       <div className="mb-8">
         <h1 className='text-black mb-4 text-xl w-full text-center'>Digita tu documento de identidad</h1>
         <input
@@ -159,7 +159,7 @@ export default function Page() {
 
       </div>
     </div>
-    <div className="absolute bottom-4 right-4 w-full flex justify-evenly">
+    <div className="absolute bottom-4 right-4 w-full flex justify-evenly z-1">
       <Image
             src="/assets/logo_ministerio_salud.png"     // La imagen debe estar en la carpeta public
             alt="ministerio"
