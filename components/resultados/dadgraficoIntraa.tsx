@@ -11,8 +11,9 @@ const obtenerRiesgoMasComun = (dataContador:any) => {
     }, null);
   };
 export default function DadgraficoIntraa({datos}:{datos:any[]}) {
+console.log('@@@@@@@@@@@@@@',datos);
 const resultados = processFormularios(datos);
-console.log(resultados);
+// console.log('@@@@@@@@@@@@@@2',resultados);
 const dataDominioLiderazgo = [
     { 
         titulo: 'Características de Liderazgo', 
@@ -169,9 +170,8 @@ function processFormularios(formularios: any[]): ProcessedResults {
     };
     
     items.forEach(item => {
-      const risk = item?.toLowerCase() as keyof typeof counts;
-      if (risk in counts) {
-        counts[risk]++;
+      if (item as keyof typeof counts in counts) {
+        counts[item as keyof typeof counts]++;
       }
     });
     
@@ -188,7 +188,7 @@ function processFormularios(formularios: any[]): ProcessedResults {
     if (items.length === 0) return 0;
     const suma = items.reduce((acc, val) => acc + (val || 0), 0);
     return Number((suma / items.length).toFixed(2));
-  }
+    }
 
   const result: ProcessedResults = {
     general: {

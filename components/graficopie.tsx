@@ -37,8 +37,8 @@ const chartConfig = {
         color: "hsl(142 72% 29%)",
     },
     muyAlto: {
-        label: "Riesgo Muy ",
-        color: "hsl(142 72% 29%)",
+        label: "Riesgo Muy Alto",
+        color: "hsl(0 90% 50%)",
     }
 } satisfies ChartConfig
 type ChartItem = {
@@ -74,7 +74,7 @@ function GraficoPie({
     className,
   }: CardProps) {
    
-    console.log(dataDimensiones)
+    console.log('DATTOOOOOOSSS CHATR DATA',chartData)
     const totalPersonas = React.useMemo(() => {
         return chartData.reduce((acc, curr) => acc + curr.personas, 0)
     }, [])

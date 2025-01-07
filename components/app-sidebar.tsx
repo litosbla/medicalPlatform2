@@ -1,5 +1,6 @@
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
 import Image from "next/image"
+import LogoSidebar from '@/public/assets/Logo-sidebar.svg'
 import {
   Sidebar,
   SidebarContent,
@@ -48,7 +49,7 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="mb-6 mt-2 "><Image src="assets/Logo-sidebar.svg" alt="logo" width={200} height={100}/></SidebarGroupLabel>
+          <SidebarGroupLabel className="mb-6 mt-2 "><Image src={LogoSidebar} alt="logo" width={200} height={100}/></SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (

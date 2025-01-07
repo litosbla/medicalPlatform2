@@ -3,6 +3,7 @@ import GraficoPie from '@/components/graficopie';
 
 export default function DadgraficoIntrab({datos}:{datos:any[]}) {
     const resultados = processFormularios(datos);
+    console.log("@@@@@@@@ resultadooooooss @@@@@@@@@@@@@@ formulario B")
     console.log(resultados);
     const dataDominioLiderazgo = [
         { 
@@ -119,9 +120,7 @@ export default function DadgraficoIntrab({datos}:{datos:any[]}) {
         <GraficoPie chartData={resultados.dominios['Control sobre el Trabajo']} title='Control sobre el Trabajo' dataDimensiones={dataControlSobreTrabajo}/>
         <GraficoPie chartData={resultados.dominios['Demandas del Trabajo']} title='Demandas del Trabajo' dataDimensiones={dataDemandasTrabajo}/>
         <GraficoPie chartData={resultados.dominios['Recompensas']} title='Recompensas' dataDimensiones={dataRecompensas}/>
-        <div>
-            hollaaa
-        </div>
+
     </div>
 
   )
@@ -165,9 +164,8 @@ function processFormularios(formularios: any[]): ProcessedResults {
     };
     
     items.forEach(item => {
-      const risk = item?.toLowerCase() as keyof typeof counts;
-      if (risk in counts) {
-        counts[risk]++;
+      if (item as keyof typeof counts in counts) {
+        counts[item as keyof typeof counts]++;
       }
     });
     

@@ -19,7 +19,7 @@ const chartData1 = [
 Amplify.configure(outputs);
 
 const client = generateClient<Schema>();
-export default function DasboardPrincipal({citaActual}:{citaActual:string}) {
+export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
     const [currentIntraA,setCurrentIntraA] = useState<Array<Schema["FormularioIntralaboralA"]["type"]>>([]);
     const [currentIntrB,setCurrentIntraB] = useState<Array<Schema["FormularioIntralaboralB"]["type"]>>([]);
     const [currentExtralaboral,setCurrentExtralaboral] = useState<Array<Schema["FormularioExtralaboral"]["type"]>>([]);
@@ -97,10 +97,7 @@ export default function DasboardPrincipal({citaActual}:{citaActual:string}) {
                 </div>
                 <DadgraficoIntraa datos={currentIntraA}/>
                 
-                <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                <h1 className="text-2xl font-bold text-gray-800">Intralaboral B</h1>
-                </div>
+               
                 {/* <DadgraficoIntrab datos={currentIntrB}/> */}
 
             </div>
