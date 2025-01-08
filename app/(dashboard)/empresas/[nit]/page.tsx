@@ -36,10 +36,7 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
     const [sedes,setSedes] = useState<Array<Schema["Sedes"]["type"]>>([]);
     const [citas,setCitas] = useState<Array<Schema["Citas"]["type"]>>([]);
     const [sedeActual, setSedeActual] = useState<string>('');
-    const [currentIntraA,setCurrentIntraA] = useState<Array<Schema["FormularioIntralaboralA"]["type"]>>([]);
-    const [currentIntrB,setCurrentIntraB] = useState<Array<Schema["FormularioIntralaboralB"]["type"]>>([]);
-    const [currentExtralaboral,setCurrentExtralaboral] = useState<Array<Schema["FormularioExtralaboral"]["type"]>>([]);
-    const [currentEstres,setCurrentEstres] = useState<Array<Schema["FormularioEstres"]["type"]>>([]);
+
     const [isOpen, setIsOpen] = useState(false);
     const [isEmpleado, setIsEmpleado] = useState(true);
     const [isCita, setIsCita] = useState(false);
@@ -90,40 +87,13 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
         next: (data) => setCitas([...data.items]),
       });}
     
-      function listCurrentIntraA() {
-        client.models.FormularioIntralaboralA.observeQuery({
-        }).subscribe({
-          next: (data) => setCurrentIntraA([...data.items]),
-        });
-    }
-    function listCurrentIntraB() {
-        client.models.FormularioIntralaboralB.observeQuery({
-        }).subscribe({
-          next: (data) => setCurrentIntraB([...data.items]),
-        });
-    }
-    function listCurrentExtra() {
-        client.models.FormularioExtralaboral.observeQuery({
-        }).subscribe({
-          next: (data) => setCurrentExtralaboral([...data.items]),
-        });
-    }
-    function listCurrentEstres() {
-      client.models.FormularioEstres.observeQuery({
-      }).subscribe({
-        next: (data) => setCurrentEstres([...data.items]),
-      });
-    }
+    
    
     useEffect(() => {
       listEmpleados();
       listEmpresa();
       listSedes();
       listCitas();
-      listCurrentIntraA();
-      listCurrentIntraB();
-      listCurrentExtra();
-      listCurrentEstres();
     }, []);
 
     const handleSelect = (option: Option) => {
@@ -391,6 +361,7 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
                                         onTogglePress={handleTogglePress}
                                         data={sede}
                                         cita={citaMaxContador}
+                                        empleados={empleados}
                                     />
                                 );
                             }

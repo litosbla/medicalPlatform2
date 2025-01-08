@@ -1,12 +1,14 @@
 'use client'
 
 import React, { useState } from 'react'
+import SheetDemo from '@/components/empresas/asidemple';
 
 
 type SedeComponentProps ={
   data: any;
   cita?:any;
   onTogglePress: (dataontoggle:any) => void 
+  empleados?: any;
 }
 
 const defaultCita = {
@@ -17,7 +19,8 @@ const defaultCita = {
 }
 
 
-function SedeComponent({data,onTogglePress, cita = defaultCita}: SedeComponentProps) {
+function SedeComponent({data,onTogglePress, cita = defaultCita, empleados}: SedeComponentProps) {
+  console.log('PASSSSAAAAAAA PORRRR ACAAAAAA ',cita)
     const [isChecked, setIsChecked] = useState(cita.estado === "ACTIVA");
     const handleToggle = () => {
       const newValue = !isChecked;
@@ -29,13 +32,14 @@ function SedeComponent({data,onTogglePress, cita = defaultCita}: SedeComponentPr
       );
     };
 
+
   return (
     <div className={`w-[48%] border rounded-md h-[100px] p-4 flex ${isChecked ? 'shadow-[0_4px_12px_rgba(0,255,0,0.4)]' : 'shadow-[0_4px_12px_rgba(255,165,0,0.4)]'} items-center`} >
         <div className='w-full flex justify-between items-center'>
           <div>
             <h1 className='text-xl font-medium'>{data.nombre}</h1> 
             <h1 className='text-sm text-gray-600 font-bold'>{cita.fecha}</h1>
-            {cita.otp === "xxx-xxx" ? null : <h1 className='text-sm text-gray-600 font-bold'>{cita.contadorFormularios} personas han contestado</h1>}
+           
           </div>
           <div className='flex justify-between'>
             <span className="text-gray-500 text-sm mr-3">{cita.otp}</span>

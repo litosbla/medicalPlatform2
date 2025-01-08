@@ -31,7 +31,7 @@ export default function EstadisticasPage({params}:{params:{nit:string}}) {
   return (
     <div className='w-full flex flex-col'>
       <Header nit={nit} />
-      <div className="flex w-full mt-4">
+      <div className="flex w-full mt-4 gap-4">
 
         <SedeController nit={nit} onchanging={handlechangeSede}/>
         {

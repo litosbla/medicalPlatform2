@@ -20,6 +20,7 @@ const schema = a.schema({
       tipoForm: a.enum(["A","B"]),
       empresaId: a.id(),
       empresa: a.belongsTo("Empresa","empresaId"),
+      estado: a.enum(["COMPLETADO","PROCESO","INCOMPLETO"]), 
     }).identifier(["numeroDocumento"]),
   Empresa: a
     .model({
