@@ -14,6 +14,7 @@ import { DialogImportarEmpleados } from '@/components/empresas/dialogImportarEmp
 import { DialogCrearSedes } from '@/components/empresas/dialogCrearSedes';
 import SedeComponent from '@/components/empresas/sedeComponent';
 import { useRouter } from 'next/navigation'
+import EmpleadosDashboard from '@/components/empresas/contadorFormularios';
 interface Option {
   value: string;
   label: string;
@@ -163,7 +164,8 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
           data.map(empleado => 
             client.models.Empleado.create({
               ...empleado,
-              empresaId: nit
+              empresaId: nit,
+              estado: "INCOMPLETO"
             })
           )
         );
@@ -201,13 +203,14 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
     }
     
     const handleTogglePress =  async (data:any) => {
+
       const citasede = citas.filter(cita => cita.sedeId == data.idsedes);
       const citaActiva = citasede.find(cita => cita.estado === "ACTIVA");
       
 
       try {
         if (data.checked) {
-          client.models.Citas.create({
+          await client.models.Citas.create({
             fecha: new Date().toISOString().split('T')[0],
             estado: "ACTIVA",
             otp: generarOTPUnico(),
@@ -215,11 +218,22 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
             contadorFormularios: 0,
             contadorCitas: citasede.length,
           });
+          await Promise.all(
+            empleados.map(empleado => 
+                client.models.Empleado.update({
+                    numeroDocumento: empleado.numeroDocumento,
+                    estado: "INCOMPLETO"
+                })
+            )
+        );
+
         } else {
           if (!citaActiva) {
             console.error('No hay citas activas');
             return;
           }
+
+
           client.models.Citas.update({
             otp: citaActiva.otp,
             estado: "DESACTIVADA"
@@ -311,18 +325,7 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
                     </Button>
                   
 
-                    {
-                    (!isEmpleado && !isCita ) ? (
-                    <Button className='bg-white text-black border hover:text-white hover:bg-green-500'>
-                        Descargar PDF
-                    </Button>): null
-                    }
-                    <Button className='bg-white text-black border hover:text-white hover:bg-green-500'>
-                        <RotateCw />
-                    </Button >
-                    <Button className='bg-white text-black border hover:text-white hover:bg-green-500'>
-                        <MoreVertical />
-                    </Button>
+                    
 
                     
                   </div>
@@ -340,7 +343,7 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
                       )
                   ): isCita ? (
                     sedes.length > 0 ? (
-                      <div className='w-full flex flex-wrap mt-4 gap-4'> 
+                      <div className='w-full flex flex-wrap mt-4 gap-4 justify-between'> 
                         
                         {sedes.map((sede) => {
                             const citasSede = citas.filter(cita => cita.sedeId === sede.idsedes);
@@ -361,7 +364,7 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
                                         onTogglePress={handleTogglePress}
                                         data={sede}
                                         cita={citaMaxContador}
-                                        empleados={empleados}
+                                        
                                     />
                                 );
                             }
@@ -374,6 +377,9 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
                                 />
                             );
                         })}
+                        <EmpleadosDashboard empleados={empleados}/>
+                      
+                        
 
                       </div>
                     ) : (

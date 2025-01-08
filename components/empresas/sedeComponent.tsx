@@ -1,14 +1,14 @@
 'use client'
 
 import React, { useState } from 'react'
-import SheetDemo from '@/components/empresas/asidemple';
+
 
 
 type SedeComponentProps ={
   data: any;
   cita?:any;
   onTogglePress: (dataontoggle:any) => void 
-  empleados?: any;
+
 }
 
 const defaultCita = {
@@ -19,7 +19,7 @@ const defaultCita = {
 }
 
 
-function SedeComponent({data,onTogglePress, cita = defaultCita, empleados}: SedeComponentProps) {
+function SedeComponent({data,onTogglePress, cita = defaultCita}: SedeComponentProps) {
   console.log('PASSSSAAAAAAA PORRRR ACAAAAAA ',cita)
     const [isChecked, setIsChecked] = useState(cita.estado === "ACTIVA");
     const handleToggle = () => {
