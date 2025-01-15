@@ -130,7 +130,8 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
       }
       const empleadoData1 = {
         ...data,
-        empresaId: nit
+        empresaId: nit,
+        estado: "INCOMPLETO"
       };
 
       client.models.Empleado.create(empleadoData1);

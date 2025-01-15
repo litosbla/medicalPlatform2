@@ -1,6 +1,7 @@
 import React from 'react'
 import GraficoPie from '@/components/graficopie';
 
+
 export default function DadgraficoIntrab({datos}:{datos:any[]}) {
     const resultados = processFormularios(datos);
     console.log("@@@@@@@@ resultadooooooss @@@@@@@@@@@@@@ formulario B")

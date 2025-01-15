@@ -64,7 +64,7 @@ export function DialogCrearEmpleados({ onFormSubmit }: InputFormProps) {
       <DialogTrigger asChild >
         <Button >Crear Nuevo empleado</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] text-black">
+      <DialogContent className="sm:max-w-[425px] text-black max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-green-500 text-xl">Crea un Empleado</DialogTitle>
           <DialogDescription>

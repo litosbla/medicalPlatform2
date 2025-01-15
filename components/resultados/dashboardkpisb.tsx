@@ -6,7 +6,7 @@ import outputs from "@/amplify_outputs.json";
 import React, { useEffect, useState } from 'react';
 import { RefreshCw, Loader } from 'lucide-react';
 import DadgraficoIntrab from "@/components/resultados/dadgraficosIntrab";
-
+import DashboardRiesgos from "@/components/resultados/dadgraficosprueb";
 Amplify.configure(outputs);
 
 const client = generateClient<Schema>();
@@ -60,7 +60,8 @@ export default function DashboardPrincipalB({citaActual}: {citaActual: string}) 
                         <div className="w-2 h-2 rounded-full bg-green-500"></div>
                         <h1 className="text-2xl font-bold text-gray-800">Intralaboral B</h1>
                     </div>
-                    <DadgraficoIntrab datos={currentIntraB}/>
+                    {/*  en dado caso ctrl c */}
+                    <DashboardRiesgos datos={currentIntraB}/>
                 </div>
             )}
         </div>

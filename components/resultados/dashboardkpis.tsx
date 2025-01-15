@@ -8,6 +8,7 @@ import GraficoPie from '@/components/graficopie';
 import DadgraficoIntraa from "@/components/resultados/dadgraficoIntraa";
 import { RefreshCw, Loader } from 'lucide-react';
 import DadgraficoIntrab from "@/components/resultados/dadgraficosIntrab";
+import DashboardRiesgos from "@/components/resultados/dadgraficosprueb";
 const chartData1 = [
   { riesgo: "alto", personas: 387, fill: "var(--color-alto)" },
   { riesgo: "medio", personas: 245, fill: "var(--color-medio)" },
@@ -95,8 +96,9 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
                 <div className="w-2 h-2 rounded-full bg-green-500"></div>
                 <h1 className="text-2xl font-bold text-gray-800">Intralaboral A</h1>
                 </div>
-                <DadgraficoIntraa datos={currentIntraA}/>
-                
+                {/* <DadgraficoIntraa datos={currentIntraA}/> */}
+
+                <DashboardRiesgos datos={currentIntraA}/>
                
                 {/* <DadgraficoIntrab datos={currentIntrB}/> */}
 
