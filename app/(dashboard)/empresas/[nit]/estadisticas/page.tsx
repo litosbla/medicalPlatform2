@@ -2,6 +2,7 @@
 import SedeController from '@/components/resultados/dashboardresultados'
 import CitaController from '@/components/resultados/citacontroller'
 import Header from '@/components/resultados/header'
+import { Document, Packer, Paragraph } from 'docx';
 import React, { useState } from 'react'
 import DashbboardPrincipalA from '@/components/resultados/dashboardkpis'
 import FormularioController from '@/components/resultados/formulariocontroller'
@@ -27,6 +28,7 @@ export default function EstadisticasPage({params}:{params:{nit:string}}) {
     console.log(data)
     setFormActual(data)
   }
+
 
   return (
     <div className='w-full flex flex-col'>
@@ -55,25 +57,12 @@ export default function EstadisticasPage({params}:{params:{nit:string}}) {
       </div>
       {
         citaIdactual ? (
-          <div className="flex w-full">
-             {formActual === "personal" ? (
-                <DashboardPrincipalPer citaActual={citaIdactual} />
-              ) : formActual === "intralaboral-a" ? (
-                <DashbboardPrincipalA citaActual={citaIdactual}/>
-              ) : formActual === "intralaboral-b" ? (
-                <DashboardPrincipalB citaActual={citaIdactual} />
-              ) : formActual === "extralaboral" ? (
-                <DashboardPrincipalExtra citaActual={citaIdactual} />
-              ) : formActual === "stress" ? (
-                <DashboardPrincipalEstres citaActual={citaIdactual} />
-              ) : (
-                <div className='w-full h-[400px] justify-center flex items-center'>
-        <h1 className='text-4xl font-bold bg-gradient-to-r from-green-600 to-green-400 text-transparent bg-clip-text drop-shadow-md'>
-          Selecciona un formulario
-        </h1>
-      </div>
-          )}
-          </div>
+          <div className="flex w-full flex-col">
+         
+          
+              <DashbboardPrincipalA citaActual={citaIdactual}/>
+            
+        </div>
         ) : (
       <div className='w-full h-[400px] justify-center flex items-center'>
         <h1 className='text-4xl font-bold bg-gradient-to-r from-green-600 to-green-400 text-transparent bg-clip-text drop-shadow-md'>

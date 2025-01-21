@@ -146,7 +146,7 @@ function FlexiblePieChart({
                     </ChartContainer>
                 </CardContent>
                 <CardFooter className="pt-2">
-                <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs">
+                <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-1 text-xs w-full">
                         {data.map((item) => (
                             <div 
                                 key={item.id} 

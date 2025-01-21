@@ -77,37 +77,7 @@ export const genderCategories = [
   ];
   
   // Ejemplo de uso con datos reales:
-  const exampleData = {
-    gender: [
-      { id: 'Masculino', value: 150, fill: 'hsl(210 70% 50%)' },
-      { id: 'Femenino', value: 120, fill: 'hsl(340 70% 50%)' }
-    ],
-    
-    maritalStatus: [
-      { id: 'Soltero', value: 80, fill: 'hsl(200 70% 50%)' },
-      { id: 'Casado', value: 100, fill: 'hsl(150 70% 50%)' },
-      { id: 'Ul', value: 40, fill: 'hsl(100 70% 50%)' },
-      { id: 'Separado', value: 20, fill: 'hsl(50 70% 50%)' },
-      { id: 'Divorciado', value: 15, fill: 'hsl(25 70% 50%)' },
-      { id: 'Viudo', value: 10, fill: 'hsl(0 70% 50%)' },
-      { id: 'Credo', value: 5, fill: 'hsl(270 70% 50%)' }
-    ]
-  };
-// ejemplos de config y de data  
-const riskCategories = [
-    { id: 'alto', label: 'Riesgo Alto', color: 'hsl(0 84% 60%)' },
-    { id: 'medio', label: 'Riesgo Medio', color: 'hsl(32 95% 44%)' },
-    { id: 'bajo', label: 'Riesgo Bajo', color: 'hsl(174 72% 56%)' },
-    { id: 'sinRiesgo', label: 'Sin Riesgo', color: 'hsl(142 72% 29%)' },
-    { id: 'muyAlto', label: 'Riesgo Muy Alto', color: 'hsl(0 90% 50%)' }
-  ];
   
-  const riskData = [
-    { id: 'alto', value: 30, fill: 'hsl(0 84% 60%)' },
-    { id: 'medio', value: 45, fill: 'hsl(32 95% 44%)' },
-    { id: 'bajo', value: 15, fill: 'hsl(174 72% 56%)' },
-    { id: 'sinRiesgo', value: 10, fill: 'hsl(142 72% 29%)' }
-  ];
   
 export default function DadgraficoPersonal({datos}:{datos:any[]}) {
   console.log('DATOS dad grafico personal',datos)
