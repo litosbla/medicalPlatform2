@@ -108,7 +108,7 @@ function GraficoPie({
       
 
     return (
-        <div className='flex border rounded-2xl shadow-md bg-gray-50  md:w-full xl:w-full lg:w-full justify-between'>
+        <div className='flex border rounded-2xl shadow-md bg-gray-50  md:w-full xl:w-full lg:w-full justify-between chart-container'>
             <Card className={`flex flex-col ${className} ${getShadowClass(getRiesgoMasComun.riesgo)} h-[450px] max-w-[450px]`}>
                 <CardHeader className="items-center pb-0">
                     <CardTitle className='text-center'>{title}</CardTitle>

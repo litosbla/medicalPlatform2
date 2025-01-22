@@ -3,10 +3,12 @@ import { generateClient } from "aws-amplify/data";
 import { data, type Schema } from "@/amplify/data/resource";
 import { Amplify } from "aws-amplify";
 import outputs from "@/amplify_outputs.json";
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import GraficoPie from '@/components/graficopie';
+import { Document, Packer, Paragraph, ImageRun } from 'docx';
+import html2canvas from 'html2canvas';
 import DadgraficoIntraa from "@/components/resultados/dadgraficoIntraa";
-import { RefreshCw, Loader } from 'lucide-react';
+import { RefreshCw, Loader , Download, Section} from 'lucide-react';
 import DashboardRiesgos from "@/components/resultados/dadgraficosprueb";
 import {
   genderCategories,
@@ -179,7 +181,86 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
         color: "text-blue-600"
       }));
     };
-    
+    const handleDownloadWord = async () => {
+      try {
+        // Capturar cada sección de gráficos
+        const sections = [
+          'datosPersonales',
+          'datosIntralaborlA',
+          'datosIntralaborlB',
+          'datosExtralaboral'
+        ];
+  
+        const imageParagraphs = [];
+  
+        for (const sectionId of sections) {
+          const section = document.getElementById(sectionId);
+          if (section) {
+            const charts = section.querySelectorAll('.chart-container');
+            const chartsArray = Array.from(charts); // Añade esta clase a tus contenedores de gráficos
+            for (const chart of chartsArray) {
+              const canvas = await html2canvas(chart as HTMLElement,{
+                scale: 2, // Increases resolution
+                useCORS: true,
+                backgroundColor: null,
+                logging: false,
+                //  allowTaint: true
+                onclone: (doc) => {
+                  const elements = doc.getElementsByClassName('chart-container');
+                  for (const el of Array.from(elements)) {
+                    (el as HTMLElement).style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+                  }
+                }
+              });
+              const blob = await new Promise<Blob>((resolve) => {
+                canvas.toBlob((blob) => resolve(blob!), 'image/png');
+              });
+  
+              const arrayBuffer = await blob.arrayBuffer();
+              
+              imageParagraphs.push(
+                new Paragraph({
+                  children: [
+                    new ImageRun({
+                      data: arrayBuffer,
+                      transformation: {
+                        width:  canvas.width,
+                        height: canvas.height
+                      },
+                      type: "png"
+                    } as any)
+                  ]
+                })
+              );
+            }
+          }
+        }
+  
+        const doc = new Document({
+          sections: [{
+            properties: {},
+            children: [
+              new Paragraph({
+                text: "Dashboard Principal A Report",
+              }),
+              ...imageParagraphs
+            ],
+          }],
+        });
+  
+        const blob = await Packer.toBlob(doc);
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'dashboard-report.docx';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error('Error generating Word document:', error);
+      }
+    };
     
   return (
     <div className="w-full flex flex-col gap-4 p-4">
@@ -195,6 +276,12 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
                 <RefreshCw className="w-5 h-5 text-green-600 hover:text-blue-500 transition-colors" />
                 )}
             </button>
+            <button 
+              onClick={handleDownloadWord}
+              className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors"
+          >
+              <Download className="w-5 h-5 text-green-600 hover:text-blue-500 transition-colors" />
+          </button>
             <h1 className="text-3xl font-bold text-gray-800">Dashboard de la cita {citaActual}</h1>
         </div>
         
@@ -204,10 +291,10 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
         <div>loading</div>    
         )
         : (
-            <div className="flex flex-wrap w-full gap-4 justify-center mt-5">
-                <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                <h1 className="text-2xl font-bold text-gray-800">Datos Personales</h1>
+              <div className="flex flex-wrap w-full gap-4 justify-center mt-5">
+                  <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                  <h1 className="text-2xl font-bold text-gray-800">Datos Personales</h1>
                 </div>
                   <div className="w-full flex flex-wrap gap-4" id="datosPersonales">
                     <FlexiblePieChart
@@ -251,9 +338,7 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
                       data={salaryTypeData}
                     />
                   </div>
-
                   <h1 className="text-2xl font-bold text-gray-800">Datos Intralaboral A</h1>
-
                   <div className="w-full flex flex-wrap gap-4" id="datosIntralaborlA">
                     {Object.values(DOMAIN_CONFIG).map(domain => (
                       <GraficoPie
@@ -264,8 +349,10 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
                       />
                     ))}
                   </div>
-                  <h1 className="text-2xl font-bold text-gray-800">Datos Intralaboral B</h1>
-                  <div className="w-full flex flex-wrap gap-4" id="datosIntralaborlB">
+                  
+                  {currentIntraB.length > 0 && (<section id="datosIntralaborlB">
+                  <h1 className="text-2xl font-bold text-gray-800">Datos Intralaboral B</h1> 
+                  <div className="w-full flex flex-wrap gap-4" >
                     {Object.values(DOMAIN_CONFIG).map(domain => (
                       <GraficoPie
                         key={domain.key}
@@ -275,16 +362,17 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
                       />
                     ))}
                   </div>
+                  </section>)}
                   <h1 className="text-2xl font-bold text-gray-800">Datos Extralaboral</h1>
-                  <div className="w-full flex flex-wrap gap-4" id="datosIntralaborlB">
+                  <div className="w-full flex flex-wrap gap-4" id="datosExtralaboral">
                     <GraficoPie 
                           chartData={resultadosExtralaboral.general.riesgos} 
                           title='Factores de Riesgo Extralaboral' 
                           dataDimensiones={dataDimensionesExtralaboral}
                       />
                   </div>
-                  <h1 className="text-2xl font-bold text-gray-800">Datos Extralaboral</h1>
-                  <div className="w-full flex flex-wrap gap-4" id="datosIntralaborlB">
+                  <h1 className="text-2xl font-bold text-gray-800">Datos Estres</h1>
+                  <div className="w-full flex flex-wrap gap-4" id="datosEstres">
                     <GraficoPie 
                           chartData={resultadosEstres.general.riesgos} 
                           title='Factores de Estrés' 

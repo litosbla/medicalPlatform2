@@ -87,7 +87,7 @@ function FlexiblePieChart({
 
 
     return (
-        <Card className={`flex flex-col ${className} w-[441px]  h-[450px] max-w-[450px]`}>
+        <Card className={`flex flex-col ${className} w-[441px]  h-[450px] max-w-[450px] chart-container`}>
                 <CardHeader className="items-center pb-0">
                     <CardTitle className='text-center'>{title}</CardTitle>
                     <CardDescription className='font-bold'>
