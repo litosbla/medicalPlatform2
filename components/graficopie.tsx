@@ -173,8 +173,11 @@ function GraficoPie({
                             <div 
                                 key={item.riesgo} 
                                 className="flex items-center gap-1"
-                                style={{ color: item.fill }}
-                            >
+                            >   
+                                 <div 
+                                    className="w-3 h-3 rounded-sm"
+                                    style={{ backgroundColor: item.fill }}
+                                />
                                 <span className="font-medium">
                                     {formatRiesgo(item.riesgo)}
                                 </span>

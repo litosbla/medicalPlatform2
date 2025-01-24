@@ -116,11 +116,11 @@ function countRiskLevels(items: (string | undefined)[]): RiskCount[] {
   });
   
   return [
-    { riesgo: "muyAlto" as RiskLevel, personas: counts.muyAlto, fill: "var(--color-muyAlto)" },
-    { riesgo: "alto" as RiskLevel, personas: counts.alto, fill: "var(--color-alto)" },
-    { riesgo: "medio" as RiskLevel, personas: counts.medio, fill: "var(--color-medio)" },
-    { riesgo: "bajo" as RiskLevel, personas: counts.bajo, fill: "var(--color-bajo)" },
-    { riesgo: "sinRiesgo" as RiskLevel, personas: counts.sinRiesgo, fill: "var(--color-sinRiesgo)" }
+    { riesgo: "muyAlto" as RiskLevel, personas: counts.muyAlto, fill: "hsl(0 90% 50%)" },
+    { riesgo: "alto" as RiskLevel, personas: counts.alto, fill: "hsl(0 84% 60%)" },
+    { riesgo: "medio" as RiskLevel, personas: counts.medio, fill: "hsl( 32 95% 44%)" },
+    { riesgo: "bajo" as RiskLevel, personas: counts.bajo, fill: "hsl(174 72% 56%)" },
+    { riesgo: "sinRiesgo" as RiskLevel, personas: counts.sinRiesgo, fill: "hsl(142 72% 29%)" }
   ];
 }
 

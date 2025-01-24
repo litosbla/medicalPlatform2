@@ -30,6 +30,7 @@ export default function EstadisticasPage({params}:{params:{nit:string}}) {
     console.log(data)
     setFormActual(data)
   }
+  
 
   
 
@@ -52,9 +53,9 @@ export default function EstadisticasPage({params}:{params:{nit:string}}) {
         }
         {
           citaIdactual ? (
-                <div className="flex-1 bg-slate-500 justify-between">
+                <div className="flex-1 flex justify-between">
                   <FormularioController onTipoFormularioChange={handlechangeForm}/>
-                  <EstresEmpleadosController onTipoFormularioChange={handlechangeForm}/>
+                  <EstresEmpleadosController onTipoFormularioChange={setEstresOpen}/>
                 </div>
 
             ) : (
@@ -65,12 +66,14 @@ export default function EstadisticasPage({params}:{params:{nit:string}}) {
       </div>
       {
         citaIdactual ? (
-          <div className="flex w-full flex-col">
-         
-          
-              <DashbboardPrincipalA citaActual={citaIdactual}/>
-            
-        </div>
+          estresOpen ? 
+          (<div>
+
+          </div>) : 
+          ( <div className="flex w-full flex-col ">
+            <DashbboardPrincipalA citaActual={citaIdactual}/>
+          </div>
+          )
         ) : (
       <div className='w-full h-[400px] justify-center flex items-center'>
         <h1 className='text-4xl font-bold bg-gradient-to-r from-green-600 to-green-400 text-transparent bg-clip-text drop-shadow-md'>

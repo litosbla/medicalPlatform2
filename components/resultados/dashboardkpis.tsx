@@ -263,24 +263,24 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
     };
     
   return (
-    <div className="w-full flex flex-col gap-4 p-4">
+    <div className="w-full flex flex-col gap-4 p-4 mt-6" >
         <div className="flex justify-center gap-5">
             <button 
                 onClick={fetchInitialData}
                 disabled={isLoading}
-                className=" flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors"
+                className=" flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors  bg-green-500 text-white"
             >
                {isLoading ? (
-                <Loader className="w-5 h-5 animate-spin text-blue-500" />
+                <Loader className="w-5 h-5 animate-spin hover:text-green-500 " />
                 ) : (
-                <RefreshCw className="w-5 h-5 text-green-600 hover:text-blue-500 transition-colors" />
+                <RefreshCw className="w-5 h-5 text-white hover:text-green-500 transition-colors" />
                 )}
             </button>
             <button 
               onClick={handleDownloadWord}
-              className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors"
+              className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors bg-green-500 text-white"
           >
-              <Download className="w-5 h-5 text-green-600 hover:text-blue-500 transition-colors" />
+              <Download className="w-5 h-5 text-white hover:text-green-500 transition-colors" />
           </button>
             <h1 className="text-3xl font-bold text-gray-800">Dashboard de la cita {citaActual}</h1>
         </div>
@@ -293,9 +293,9 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
         : (
               <div className="flex flex-wrap w-full gap-4 justify-center mt-5">
                   <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                  <h1 className="text-2xl font-bold text-gray-800">Datos Personales</h1>
-                </div>
+                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                    <h1 className="text-2xl font-bold text-gray-800">Datos Personales</h1>
+                  </div>
                   <div className="w-full flex flex-wrap gap-4" id="datosPersonales">
                     <FlexiblePieChart
                       title="Distribución por Sexo"
@@ -338,7 +338,10 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
                       data={salaryTypeData}
                     />
                   </div>
-                  <h1 className="text-2xl font-bold text-gray-800">Datos Intralaboral A</h1>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                    <h1 className="text-2xl font-bold text-gray-800">Datos Intralaboral A</h1>
+                  </div>
                   <div className="w-full flex flex-wrap gap-4" id="datosIntralaborlA">
                     {Object.values(DOMAIN_CONFIG).map(domain => (
                       <GraficoPie
@@ -350,8 +353,12 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
                     ))}
                   </div>
                   
-                  {currentIntraB.length > 0 && (<section id="datosIntralaborlB">
-                  <h1 className="text-2xl font-bold text-gray-800">Datos Intralaboral B</h1> 
+                  {currentIntraB.length > 0 && (
+                  <section id="datosIntralaborlB">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                    <h1 className="text-2xl font-bold text-gray-800">Datos Intralaboral B</h1> 
+                  </div>
                   <div className="w-full flex flex-wrap gap-4" >
                     {Object.values(DOMAIN_CONFIG).map(domain => (
                       <GraficoPie
@@ -363,7 +370,10 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
                     ))}
                   </div>
                   </section>)}
-                  <h1 className="text-2xl font-bold text-gray-800">Datos Extralaboral</h1>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                    <h1 className="text-2xl font-bold text-gray-800">Datos Extralaboral</h1>
+                  </div>
                   <div className="w-full flex flex-wrap gap-4" id="datosExtralaboral">
                     <GraficoPie 
                           chartData={resultadosExtralaboral.general.riesgos} 
@@ -371,7 +381,10 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
                           dataDimensiones={dataDimensionesExtralaboral}
                       />
                   </div>
-                  <h1 className="text-2xl font-bold text-gray-800">Datos Estres</h1>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                    <h1 className="text-2xl font-bold text-gray-800">Datos Estres</h1>
+                  </div>
                   <div className="w-full flex flex-wrap gap-4" id="datosEstres">
                     <GraficoPie 
                           chartData={resultadosEstres.general.riesgos} 

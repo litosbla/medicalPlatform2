@@ -56,11 +56,11 @@ export function countRiskLevels(items: (string | undefined)[]): RiskCount[] {
     });
     
     return [
-        { riesgo: "muyAlto", personas: counts.muyAlto, fill: "var(--color-muyAlto)" },
-        { riesgo: "alto", personas: counts.alto, fill: "var(--color-alto)" },
-        { riesgo: "medio", personas: counts.medio, fill: "var(--color-medio)" },
-        { riesgo: "bajo", personas: counts.bajo, fill: "var(--color-bajo)" },
-        { riesgo: "sinRiesgo", personas: counts.sinRiesgo, fill: "var(--color-sinRiesgo)" }
+        { riesgo: "muyAlto", personas: counts.muyAlto, fill: "hsl(0 90% 50%)" },
+        { riesgo: "alto", personas: counts.alto, fill: "hsl(0 84% 60%)" },
+        { riesgo: "medio", personas: counts.medio, fill: "hsl( 32 95% 44%)" },
+        { riesgo: "bajo", personas: counts.bajo, fill: "hsl(174 72% 56%)" },
+        { riesgo: "sinRiesgo", personas: counts.sinRiesgo, fill: "hsl(142 72% 29%)" }
     ];
 }
 
