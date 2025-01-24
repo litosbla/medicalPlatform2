@@ -318,9 +318,12 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
                     <Button className='bg-white text-black border hover:text-white hover:bg-green-500' onClick={() => handleEstadisticas()} >
                       Estadísticas
                     </Button>
-                    <Button className='bg-white text-black border hover:text-white hover:bg-green-500' onClick={() => handleEmpleado()} >
+                     { isEmpleado ? (
+                          null
+                      ):(<Button className='bg-white text-black border hover:text-white hover:bg-green-500' onClick={() => handleEmpleado()} >
                       Empleados
-                    </Button>
+                    </Button>)}
+                    
                     <Button className='bg-white text-black border hover:text-white hover:bg-green-500' onClick={() => handleCitas()}>
                           Citas
                     </Button>
@@ -344,7 +347,9 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
                       )
                   ): isCita ? (
                     sedes.length > 0 ? (
-                      <div className='w-full flex flex-wrap mt-4 gap-4 justify-between'> 
+                      <div className='w-full flex mt-4 gap-4 justify-between'> 
+                        <div className='flex flex-wrap gap-4 h-full'>
+
                         
                         {sedes.map((sede) => {
                             const citasSede = citas.filter(cita => cita.sedeId === sede.idsedes);
@@ -378,7 +383,11 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
                                 />
                             );
                         })}
-                        <EmpleadosDashboard empleados={empleados}/>
+                        </div>
+                        <div>
+                          <EmpleadosDashboard empleados={empleados}/>
+                        </div>
+                        
                       
                         
 

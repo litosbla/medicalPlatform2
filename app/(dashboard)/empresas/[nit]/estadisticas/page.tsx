@@ -10,12 +10,14 @@ import DashboardPrincipalB from '@/components/resultados/dashboardkpisb';
 import DashboardPrincipalPer from '@/components/resultados/dashboardkpisper';
 import DashboardPrincipalExtra from '@/components/resultados/dashboardkpisextra';
 import DashboardPrincipalEstres from '@/components/resultados/dashboardkpisestres';
+import EstresEmpleadosController from '@/components/resultados/empleadosestresController';
 
 export default function EstadisticasPage({params}:{params:{nit:string}}) {
   const {nit} = params
   const [sedeIdactual, setSedeIdactual] = useState<string | null>(null)
   const [citaIdactual, setCitaIdactual] = useState<string | null>(null)
   const [formActual, setFormActual] = useState<string | null>(null)
+  const [estresOpen, setEstresOpen] = useState<boolean>(false)
   const handlechangeSede = (sedeId:any) => {
     console.log(sedeId)
     setSedeIdactual(sedeId)
@@ -28,6 +30,8 @@ export default function EstadisticasPage({params}:{params:{nit:string}}) {
     console.log(data)
     setFormActual(data)
   }
+
+  
 
 
   return (
@@ -48,7 +52,11 @@ export default function EstadisticasPage({params}:{params:{nit:string}}) {
         }
         {
           citaIdactual ? (
-               <FormularioController onTipoFormularioChange={handlechangeForm}/>
+                <div className="flex-1 bg-slate-500 justify-between">
+                  <FormularioController onTipoFormularioChange={handlechangeForm}/>
+                  <EstresEmpleadosController onTipoFormularioChange={handlechangeForm}/>
+                </div>
+
             ) : (
           <div>
            

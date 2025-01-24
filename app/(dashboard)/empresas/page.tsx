@@ -184,14 +184,14 @@ function Empresas() {
       </div>
       <div className='w-full h-full flex flex-wrap' >
         {empresa.map((emp) => (
-        <div className='w-[300px] h-[100px] p-2 flex justify-between items-center mt-3 border rounded-xl shadow-xl border-green-100 mr-3 mb-3' key={emp.nit}>
-          <Link className='flex items-center flex-1' href={`/empresas/${emp.nit}`}>        
-            <Building2 className="h-6 w-6 text-green-600 mr-4" />
-            <div className="flex flex-col">
-              <h2 className='text-lg font-semibold text-gray-800'>{emp.nombre}</h2>
-              <p className='text-sm text-gray-500'>{emp.createdAt}</p>
-            </div>
-          </Link>
+        <div className='w-[300px] h-[100px] p-2 flex justify-between items-center mt-3 border rounded-xl shadow-xl border-green-100 mr-3 mb-3 overflow-hidden' key={emp.nit}>
+        <Link className='flex items-center flex-1 min-w-0' href={`/empresas/${emp.nit}`}>        
+          <Building2 className="flex-shrink-0 h-6 w-6 text-green-600 mr-4" />
+          <div className="flex flex-col overflow-hidden">
+            <h2 className='text-lg font-semibold text-gray-800 truncate'>{emp.nombre}</h2>
+            <p className='text-sm text-gray-500 truncate'>{emp.createdAt}</p>
+          </div>
+        </Link>
           <DropdownMenu>
             <DropdownMenuTrigger> <MoreVertical className="h-5 w-5 text-green-600" /></DropdownMenuTrigger>
             <DropdownMenuContent className='w-45'>

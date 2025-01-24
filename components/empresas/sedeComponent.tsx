@@ -34,7 +34,7 @@ function SedeComponent({data,onTogglePress, cita = defaultCita}: SedeComponentPr
 
 
   return (
-    <div className={`w-[48%] border rounded-md h-[100px] p-4 flex ${isChecked ? 'shadow-[0_4px_12px_rgba(0,255,0,0.4)]' : 'shadow-[0_4px_12px_rgba(255,165,0,0.4)]'} items-center`} >
+    <div className={`min-w-[300px] border rounded-md h-[100px] p-4 flex ${isChecked ? 'shadow-[0_4px_12px_rgba(0,255,0,0.4)]' : 'shadow-[0_4px_12px_rgba(255,165,0,0.4)]'} items-center`} >
         <div className='w-full flex justify-between items-center'>
           <div>
             <h1 className='text-xl font-medium'>{data.nombre}</h1> 
