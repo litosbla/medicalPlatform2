@@ -38,7 +38,7 @@ export default function EstadisticasPage({params}:{params:{nit:string}}) {
   return (
     <div className='w-full flex flex-col'>
       <Header nit={nit} />
-      <div className="flex w-full mt-4 gap-4">
+      <div className="flex w-full mt-4 gap-4 justify-center">
 
         <SedeController nit={nit} onchanging={handlechangeSede}/>
         {
@@ -53,10 +53,7 @@ export default function EstadisticasPage({params}:{params:{nit:string}}) {
         }
         {
           citaIdactual ? (
-                <div className="flex-1 flex justify-between">
-                  <FormularioController onTipoFormularioChange={handlechangeForm}/>
-                  <EstresEmpleadosController onTipoFormularioChange={setEstresOpen}/>
-                </div>
+                <FormularioController onTipoFormularioChange={handlechangeForm}/>
 
             ) : (
           <div>
@@ -71,7 +68,8 @@ export default function EstadisticasPage({params}:{params:{nit:string}}) {
 
           </div>) : 
           ( <div className="flex w-full flex-col ">
-            <DashbboardPrincipalA citaActual={citaIdactual}/>
+          
+            <DashbboardPrincipalA citaActual={citaIdactual} empresanit={nit}/>
           </div>
           )
         ) : (

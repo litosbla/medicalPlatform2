@@ -8,7 +8,7 @@ import GraficoPie from '@/components/graficopie';
 import { Document, Packer, Paragraph, ImageRun } from 'docx';
 import html2canvas from 'html2canvas';
 import DadgraficoIntraa from "@/components/resultados/dadgraficoIntraa";
-import { RefreshCw, Loader , Download, Section} from 'lucide-react';
+import { RefreshCw, Loader , Download, Section,  UserX , BarChart } from 'lucide-react';
 import DashboardRiesgos from "@/components/resultados/dadgraficosprueb";
 import {
   genderCategories,
@@ -29,10 +29,17 @@ import {
 import { processFormulariosExtralaboral} from '@/types/graficos/masterFileExtralaboral';
 import { processFormulariosEstres } from '@/types/graficos/masterFileEstres';
 import FlexiblePieChart from '@/components/flexiblegraficopie';
+import { Card, CardContent } from "../ui/card";
 Amplify.configure(outputs);
-
+interface DominioLiderazgo {
+  titulo: string;
+  valor: number;
+  color: string;
+}
 const client = generateClient<Schema>();
-export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
+export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:string,empresanit:string}) {
+    const [estresOpen, setEstresOpen] = useState<boolean>(false)
+    const [empleados, setEmpleados] = useState<Array<Schema["Empleado"]["type"]>>([]);
     const [currentPersonales, setPersonales] = useState<Array<Schema["FormularioPersonales"]["type"]>>([]);
     const [currentIntraA,setCurrentIntraA] = useState<Array<Schema["FormularioIntralaboralA"]["type"]>>([]);
     const [currentIntraB,setCurrentIntraB] = useState<Array<Schema["FormularioIntralaboralB"]["type"]>>([]);
@@ -43,7 +50,10 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
         setIsLoading(true);
         try {
           // Fetch all data concurrently
-          const [personalesData, intraAData, intraBData, extraData, estresData] = await Promise.all([
+          const [empleados, personalesData, intraAData, intraBData, extraData, estresData] = await Promise.all([
+            client.models.Empleado.list({
+              filter: { empresaId: { eq: empresanit } }
+            }),
             client.models.FormularioPersonales.list({
               filter: { citaId: { eq: citaActual } }
             }),
@@ -60,6 +70,7 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
               filter: { citaIdEstres: { eq: citaActual } }
             })
           ]);
+          setEmpleados(empleados.data);
           setPersonales(personalesData.data);
           setCurrentIntraA(intraAData.data);
           setCurrentIntraB(intraBData.data);
@@ -141,7 +152,10 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
     // transformar Datos Estres
 
     const resultadosEstres = processFormulariosEstres(currentEstres);
-    
+    const empleadosConEstres = currentEstres.filter(
+      estres => estres.nivelRiesgoTotal === 'alto' || estres.nivelRiesgoTotal === 'muyAlto'
+    );
+
     const dataDimensionesEstres: DimensionData[] = [
         {
             titulo: 'Comunicación y Relaciones',
@@ -164,7 +178,6 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
             color: "text-blue-600"
         }
     ];
-
 
 
     const getDimensionDataA = (dimensions: string[]): DimensionData[] => {
@@ -261,6 +274,11 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
         console.error('Error generating Word document:', error);
       }
     };
+    const handleEstres = () => {
+      
+      setEstresOpen(!estresOpen)
+      console.log(estresOpen)
+    }
     
   return (
     <div className="w-full flex flex-col gap-4 p-4 mt-6" >
@@ -268,21 +286,35 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
             <button 
                 onClick={fetchInitialData}
                 disabled={isLoading}
-                className=" flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors  bg-green-500 text-white"
+                className=" flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors  bg-green-500 text-white hover:text-green-500"
             >
                {isLoading ? (
-                <Loader className="w-5 h-5 animate-spin hover:text-green-500 " />
+                <Loader className="w-5 h-5 animate-spin" />
                 ) : (
-                <RefreshCw className="w-5 h-5 text-white hover:text-green-500 transition-colors" />
+                <RefreshCw className="w-5 h-5 transition-colors" />
                 )}
             </button>
             <button 
               onClick={handleDownloadWord}
-              className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors bg-green-500 text-white"
+              className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors bg-green-500 text-white  hover:text-green-500"
           >
-              <Download className="w-5 h-5 text-white hover:text-green-500 transition-colors" />
+              <Download className="w-5 h-5  transition-colors" />
           </button>
-            <h1 className="text-3xl font-bold text-gray-800">Dashboard de la cita {citaActual}</h1>
+            <h1 className="text-3xl font-bold text-gray-800">DASHBOARD DE LA CITA {citaActual}</h1>
+          <button 
+                onClick={handleEstres}
+                disabled={isLoading}
+                className={` flex items-center justify-center w-10 h-10 rounded-full ${estresOpen ? 'hover:bg-gray-100 transition-colors  bg-green-400 text-white hover:text-green-500':'hover:bg-gray-100 transition-colors  bg-red-400 text-white hover:text-red-500'} `}
+            >
+              {estresOpen ? (
+                <BarChart className="w-5 h-5  transition-colors" />
+                
+                ) : (
+                  <UserX className="w-5 h-5   transition-colors" />
+                )}
+                
+               
+            </button>
         </div>
         
         
@@ -290,11 +322,11 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
         {isLoading ? (
         <div>loading</div>    
         )
-        : (
-              <div className="flex flex-wrap w-full gap-4 justify-center mt-5">
-                  <div className="flex items-center gap-2">
+        : ( !estresOpen ? (
+            <div className="flex flex-wrap w-full gap-4 justify-center mt-5">
+                  <div className="flex items-center gap-2 mb-4">
                     <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                    <h1 className="text-2xl font-bold text-gray-800">Datos Personales</h1>
+                    <h1 className="text-2xl font-bold text-gray-800">FORMULARIO DATOS PERSONALES</h1>
                   </div>
                   <div className="w-full flex flex-wrap gap-4" id="datosPersonales">
                     <FlexiblePieChart
@@ -338,9 +370,9 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
                       data={salaryTypeData}
                     />
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 mb-4">
                     <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                    <h1 className="text-2xl font-bold text-gray-800">Datos Intralaboral A</h1>
+                    <h1 className="text-2xl font-bold text-gray-800">FORMULARIO INTRALABORAL A</h1>
                   </div>
                   <div className="w-full flex flex-wrap gap-4" id="datosIntralaborlA">
                     {Object.values(DOMAIN_CONFIG).map(domain => (
@@ -357,7 +389,7 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
                   <section id="datosIntralaborlB">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                    <h1 className="text-2xl font-bold text-gray-800">Datos Intralaboral B</h1> 
+                    <h1 className="text-2xl font-bold text-gray-800">FORMULARIO INTRALABORAL B</h1> 
                   </div>
                   <div className="w-full flex flex-wrap gap-4" >
                     {Object.values(DOMAIN_CONFIG).map(domain => (
@@ -372,7 +404,7 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
                   </section>)}
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                    <h1 className="text-2xl font-bold text-gray-800">Datos Extralaboral</h1>
+                    <h1 className="text-2xl font-bold text-gray-800">FORMULARIO EXTRALABORAL</h1>
                   </div>
                   <div className="w-full flex flex-wrap gap-4" id="datosExtralaboral">
                     <GraficoPie 
@@ -383,7 +415,7 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                    <h1 className="text-2xl font-bold text-gray-800">Datos Estres</h1>
+                    <h1 className="text-2xl font-bold text-gray-800">FORMULARIO ESTRÉS</h1>
                   </div>
                   <div className="w-full flex flex-wrap gap-4" id="datosEstres">
                     <GraficoPie 
@@ -398,7 +430,70 @@ export default function DasboardPrincipalA({citaActual}:{citaActual:string}) {
                
                 {/* <DadgraficoIntrab datos={currentIntrB}/> */}
 
+            </div>) :
+            (<div className="flex flex-wrap w-full gap-4 justify-center mt-5">
+              {empleadosConEstres.map((empleadoEstresado) => {
+                const nombreEmpleado = empleados.find(empleado => empleado.numeroDocumento === empleadoEstresado.documento)?.nombre?.toLocaleUpperCase() ;
+                const dataDimensionesEmpleadosConEstres: DimensionData[] = [
+                  {
+                      titulo: 'Comunicación y Relaciones',
+                      valor: empleadoEstresado.comunicacionRelaciones?.puntajeTransformado?? 0,
+                      color: "text-blue-600"
+                  },
+                  {
+                      titulo: 'Relaciones Familiares',
+                      valor: empleadoEstresado.relacionesFamiliares?.puntajeTransformado?? 0,
+                      color: "text-blue-600"
+                  },
+                  {
+                      titulo: 'Situación Económica',
+                      valor: empleadoEstresado.situacionEconomica?.puntajeTransformado?? 0,
+                      color: "text-blue-600"
+                  },
+                  {
+                      titulo: 'Tiempo Fuera del Trabajo',
+                      valor: empleadoEstresado.tiempoFueraTrabajo?.puntajeTransformado?? 0,
+                      color: "text-blue-600"
+                  }
+                ];
+
+
+                return (
+                  <div className='w-[60%] p-4 flex flex-col justify-center ml-4 gap-5 relative'>
+                    <h3 className="text-lg font-bold mb-2 text-center">{nombreEmpleado} {empleadoEstresado.documento} <span className={`${empleadoEstresado.nivelRiesgoTotal === 'muyAlto'? 'bg-red-500' : 'bg-red-300' } w-[100px] text-center text-white font-bold rounded-xl p-1 absolute top-3 right-0`}>{empleadoEstresado.nivelRiesgoTotal}</span></h3>
+                    <div className='mt-2 max-h-80 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent'>
+                    <div className="space-y-1">
+                      {dataDimensionesEmpleadosConEstres.map((dominio: DominioLiderazgo, index: number) => (
+                          <Card key={index} className="bg-white shadow hover:shadow-md transition-shadow duration-300">
+                          <CardContent className="p-3">
+                              <div className="flex items-center justify-between gap-2">
+                              <h3 className="text-sm font-medium text-gray-800 flex-1">
+                                  {dominio.titulo}
+                              </h3>
+                              <div className="flex items-center gap-2">
+                                  <div className={`text-base font-bold ${dominio.color} min-w-[2.5rem] text-right`}>
+                                  {Math.round(dominio.valor * 100) / 100}
+                                  </div>
+                                  <div className="w-16 h-1.5 bg-gray-200 rounded-full">
+                                  <div 
+                                      className="h-full bg-blue-600 rounded-full"
+                                      style={{
+                                      width: `${(dominio.valor / 100) * 100}%`
+                                      }}
+                                  />
+                                  </div>
+                              </div>
+                              </div>
+                          </CardContent>
+                          </Card>
+                      ))}
+                      </div>
+                  </div>
+              </div>
+                )
+              })}
             </div>
+          )
 
             
 
