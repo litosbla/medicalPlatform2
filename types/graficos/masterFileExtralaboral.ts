@@ -20,6 +20,9 @@ export type ProcessedResults = {
     dimensiones: {
         [key: string]: DimensionResult;
     };
+    dimensionesPie: {
+        [key: string]: RiskCount[];
+    };
 }
 
 export type DimensionData = {
@@ -76,15 +79,19 @@ export function processFormulariosExtralaboral(formularios: any[]): ProcessedRes
             riesgos: [],
             promedioTotal: 0
         },
-        dimensiones: {}
+        dimensiones: {},
+        dimensionesPie: {}
+
     };
 
     // Process general statistics
     result.general.riesgos = countRiskLevels(formularios.map(f => f.nivelRiesgoTotal));
     result.general.promedioTotal = calcularPromedio(formularios.map(f => f.puntajeTotal));
 
+
     // Process dimensions
     DIMENSIONES.forEach(dimension => {
+        
         const dimensionData = formularios.map(f => f[dimension]?.nivelRiesgo);
         const puntajesTransformados = formularios.map(f => 
             f[dimension]?.puntajeTransformado
@@ -95,6 +102,8 @@ export function processFormulariosExtralaboral(formularios: any[]): ProcessedRes
             promedio: calcularPromedio(puntajesTransformados)
         };
     });
+
+
 
     return result;
 }

@@ -50,8 +50,9 @@ type CardProps = {
     title: string;
     description?: string;
     chartData: ChartItem[];
-    dataDimensiones: any;
+    dataDimensiones?: any;
     className?: string;
+    hijo?:boolean;
   }
 
   type RiesgoItem = {
@@ -72,6 +73,7 @@ function GraficoPie({
     chartData,
     dataDimensiones,
     className,
+    hijo=false
   }: CardProps) {
    
     console.log('DATTOOOOOOSSS CHATR DATA',chartData)
@@ -108,10 +110,11 @@ function GraficoPie({
       
 
     return (
-        <div className='flex border rounded-2xl shadow-md bg-gray-50  md:w-full xl:w-full lg:w-full justify-between chart-container'>
-            <Card className={`flex flex-col ${className} ${getShadowClass(getRiesgoMasComun.riesgo)} h-[450px] max-w-[450px]`}>
+
+        <div className={`${!hijo ? 'flex border rounded-2xl shadow-xl bg-gray-50  md:w-full xl:w-full lg:w-full justify-between chart-container': ''}`}>
+            <Card className={`flex flex-col ${className} h-[450px] max-w-[450px] ${!hijo ? getShadowClass(getRiesgoMasComun.riesgo): 'chart-container'} `}>
                 <CardHeader className="items-center pb-0">
-                    <CardTitle className='text-center'>{title}</CardTitle>
+                    <CardTitle className='text-center font-bold text-xl'>{title.toUpperCase()}</CardTitle>
                     <CardDescription className='font-bold'>{formatRiesgo(getRiesgoMasComun.riesgo)}</CardDescription>
                 </CardHeader>
                 <CardContent className="flex-1 pb-0">
@@ -172,16 +175,16 @@ function GraficoPie({
                         {chartData.map((item) => (
                             <div 
                                 key={item.riesgo} 
-                                className="flex items-center gap-1"
+                                className="flex items-center gap-1 contenedor"
                             >   
                                  <div 
                                     className="w-3 h-3 rounded-sm"
                                     style={{ backgroundColor: item.fill }}
                                 />
-                                <span className="font-medium">
+                                <span className="font-medium riesgo">
                                     {formatRiesgo(item.riesgo)}
                                 </span>
-                                <span>
+                                <span className='porcentaje'>
                                     {((item.personas / totalPersonas) * 100).toFixed(1)}%
                                 </span>
                             </div>
@@ -189,37 +192,42 @@ function GraficoPie({
                     </div>
                 </CardFooter>
             </Card>
-            <div className='w-[60%] p-4 flex flex-col justify-center ml-4 gap-5'>
-                <h3 className="text-lg font-bold mb-2 text-center">Puntaje Promedios por dimension</h3>
-                <div className='mt-2 max-h-80 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent'>
-                <div className="space-y-1">
-                    {dataDimensiones.map((dominio: DominioLiderazgo, index: number) => (
-                        <Card key={index} className="bg-white shadow hover:shadow-md transition-shadow duration-300">
-                        <CardContent className="p-3">
-                            <div className="flex items-center justify-between gap-2">
-                            <h3 className="text-sm font-medium text-gray-800 flex-1">
-                                {dominio.titulo}
-                            </h3>
-                            <div className="flex items-center gap-2">
-                                <div className={`text-base font-bold ${dominio.color} min-w-[2.5rem] text-right`}>
-                                {Math.round(dominio.valor * 100) / 100}
+            {
+                !hijo ? (<div className='w-[60%] p-4 flex flex-col justify-center ml-4 gap-5'>
+                    <h3 className="text-lg font-bold mb-2 text-center">PUNTAJE PROMEDIO POR DIMENSIÓN</h3>
+                    <div className='mt-2 max-h-80 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent'>
+                    <div className="space-y-1">
+                        {dataDimensiones.map((dominio: DominioLiderazgo, index: number) => (
+                            <Card key={index} className="bg-white shadow hover:shadow-md transition-shadow duration-300">
+                            <CardContent className="p-3">
+                                <div className="flex items-center justify-between gap-2">
+                                <h3 className="text-sm font-medium text-gray-800 flex-1">
+                                    {dominio.titulo}
+                                </h3>
+                                <div className="flex items-center gap-2">
+                                    <div className={`text-base font-bold ${dominio.color} min-w-[2.5rem] text-right`}>
+                                    {Math.round(dominio.valor * 100) / 100}
+                                    </div>
+                                    <div className="w-16 h-1.5 bg-gray-200 rounded-full">
+                                    <div 
+                                        className="h-full bg-blue-600 rounded-full"
+                                        style={{
+                                        width: `${(dominio.valor / 100) * 100}%`
+                                        }}
+                                    />
+                                    </div>
                                 </div>
-                                <div className="w-16 h-1.5 bg-gray-200 rounded-full">
-                                <div 
-                                    className="h-full bg-blue-600 rounded-full"
-                                    style={{
-                                    width: `${(dominio.valor / 100) * 100}%`
-                                    }}
-                                />
                                 </div>
-                            </div>
-                            </div>
-                        </CardContent>
-                        </Card>
-                    ))}
+                            </CardContent>
+                            </Card>
+                        ))}
+                        </div>
                     </div>
-                </div>
-            </div>
+                </div>):(<div>
+
+                </div>)
+            }
+            
         </div>
     )
 }

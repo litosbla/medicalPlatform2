@@ -315,16 +315,16 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
                   </div>
                   {/*  controladores de navegacion */}
                   <div className='flex gap-3'>
-                    <Button className='bg-white text-black border hover:text-white hover:bg-green-500' onClick={() => handleEstadisticas()} >
+                    <Button className='bg-white text-black border hover:text-white hover:bg-green-500 border-green-400 transition-colors delay-150 duration-200 ease-in-out' onClick={() => handleEstadisticas()} >
                       Estadísticas
                     </Button>
                      { isEmpleado ? (
                           null
-                      ):(<Button className='bg-white text-black border hover:text-white hover:bg-green-500' onClick={() => handleEmpleado()} >
+                      ):(<Button className='bg-white text-black border hover:text-white hover:bg-green-500 border-green-400 transition-colors delay-150 duration-200 ease-in-out' onClick={() => handleEmpleado()} >
                       Empleados
                     </Button>)}
                     
-                    <Button className='bg-white text-black border hover:text-white hover:bg-green-500' onClick={() => handleCitas()}>
+                    <Button className='bg-white text-black border hover:text-white hover:bg-green-500 border-green-400 transition-colors delay-150 duration-200 ease-in-out' onClick={() => handleCitas()}>
                           Citas
                     </Button>
                   

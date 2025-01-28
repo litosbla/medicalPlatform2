@@ -150,16 +150,16 @@ function FlexiblePieChart({
                         {data.map((item) => (
                             <div 
                                 key={item.id} 
-                                className="flex items-center gap-2 text-black"
+                                className="flex items-center gap-2 text-black contenedor"
                             >
                                 <div 
                                     className="w-3 h-3 rounded-sm"
                                     style={{ backgroundColor: item.fill }}
                                 />
-                                <span className="font-medium">
+                                <span className="font-medium riesgo">
                                     {getCategoryLabel(item.id)}
                                 </span>
-                                <span>
+                                <span className='porcentaje'>
                                     {((item.value / total) * 100).toFixed(1)}%
                                 </span>
                             </div>

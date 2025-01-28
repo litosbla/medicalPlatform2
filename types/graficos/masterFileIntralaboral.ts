@@ -42,6 +42,28 @@ export type DomainConfig = {
 
 // ######################################## CONFIGURACIONES
 
+export const DIMENSIONESTRANSFORMADAS = {
+  capacitacionEntrenamiento: 'Capacitación y Entrenamiento',
+  claridadRol: 'Claridad de Rol',
+  controlAutonomia: 'Control y Autonomía',
+  oportunidadesDesarrollo: 'Oportunidades de Desarrollo',
+  participacionCambios: 'Participación en Cambios',
+  consistenciaRol: 'Consistencia de Rol',
+  demandaCargaMental: 'Demanda de Carga Mental',
+  demandasAmbientalesCarga: 'Demandas Ambientales de Carga',
+  demandasCuantitativas: 'Demandas Cuantitativas',
+  demandasEmocionales: 'Demandas Emocionales',
+  demandasJornada: 'Demandas de Jornada',
+  influenciaTrabajo: 'Influencia en el Trabajo',
+  responsabilidadCargo: 'Responsabilidad de Cargo',
+  caracteristicasLiderazgo: 'Características de Liderazgo',
+  relacionColaboradores: 'Relación con Colaboradores',
+  relacionesSociales: 'Relaciones Sociales',
+  retroalimentacionDesempeno: 'Retroalimentación de Desempeño',
+  recompensasPertenencia: 'Recompensas de Pertenencia',
+  recompensasReconocimiento: 'Recompensas de Reconocimiento'
+}
+
 
 export const DOMAIN_CONFIG: Record<string, DomainConfig> = {
   controlSobreTrabajo: {

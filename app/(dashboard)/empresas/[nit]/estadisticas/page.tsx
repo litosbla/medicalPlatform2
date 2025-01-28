@@ -6,11 +6,13 @@ import { Document, Packer, Paragraph } from 'docx';
 import React, { useState } from 'react'
 import DashbboardPrincipalA from '@/components/resultados/dashboardkpis'
 import FormularioController from '@/components/resultados/formulariocontroller'
-import DashboardPrincipalB from '@/components/resultados/dashboardkpisb';
-import DashboardPrincipalPer from '@/components/resultados/dashboardkpisper';
-import DashboardPrincipalExtra from '@/components/resultados/dashboardkpisextra';
-import DashboardPrincipalEstres from '@/components/resultados/dashboardkpisestres';
-import EstresEmpleadosController from '@/components/resultados/empleadosestresController';
+// import DashboardPrincipalB from '@/components/resultados/dashboardkpisb';
+// import DashboardPrincipalPer from '@/components/resultados/dashboardkpisper';
+// import DashboardPrincipalExtra from '@/components/resultados/dashboardkpisextra';
+// import DashboardPrincipalEstres from '@/components/resultados/dashboardkpisestres';
+// import EstresEmpleadosController from '@/components/resultados/empleadosestresController';
+import Image from "next/image"
+import Headerimage from '@/public/assets/materialdescarga/header.png'
 
 export default function EstadisticasPage({params}:{params:{nit:string}}) {
   const {nit} = params
@@ -70,6 +72,12 @@ export default function EstadisticasPage({params}:{params:{nit:string}}) {
           ( <div className="flex w-full flex-col ">
           
             <DashbboardPrincipalA citaActual={citaIdactual} empresanit={nit}/>
+            <Image src={Headerimage} alt="logo" width={200} height={100} style={{display : 'none'}} id='imagenheader'/>
+            {/* <Image
+            width
+            >
+            </Image> */}
+            {/* <DashboardPrincipalEstres citaActual={citaIdactual} /> */}
           </div>
           )
         ) : (
