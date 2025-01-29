@@ -12,7 +12,9 @@ import FormularioController from '@/components/resultados/formulariocontroller'
 // import DashboardPrincipalEstres from '@/components/resultados/dashboardkpisestres';
 // import EstresEmpleadosController from '@/components/resultados/empleadosestresController';
 import Image from "next/image"
-import Headerimage from '@/public/assets/materialdescarga/header.png'
+import Headerimage from '@/public/assets/materialdescarga/watermark.svg'
+import FirmaPao from '@/public/assets/materialdescarga/zlogo.svg'
+
 
 export default function EstadisticasPage({params}:{params:{nit:string}}) {
   const {nit} = params
@@ -72,7 +74,9 @@ export default function EstadisticasPage({params}:{params:{nit:string}}) {
           ( <div className="flex w-full flex-col ">
           
             <DashbboardPrincipalA citaActual={citaIdactual} empresanit={nit}/>
-            <Image src={Headerimage} alt="logo" width={200} height={100} style={{display : 'none'}} id='imagenheader'/>
+            <Image src={Headerimage} alt="logo" width={100} height={100} style={{display : 'none'}} id='imagenheader'/>
+            <Image src={FirmaPao} alt="logo" width={300} height={100} style={{display : 'none'}} id='imagenfirma'/>
+            
             {/* <Image
             width
             >

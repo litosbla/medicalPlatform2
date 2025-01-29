@@ -46,9 +46,9 @@ const items = [
 
 export function AppSidebar() {
   return (
-    <Sidebar>
-      <SidebarContent>
-        <SidebarGroup>
+    <Sidebar className="bg-black text-white">
+      <SidebarContent >
+        <SidebarGroup >
           <SidebarGroupLabel className="mb-6 mt-2 "><Image src={LogoSidebar} alt="logo" width={200} height={100}/></SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>

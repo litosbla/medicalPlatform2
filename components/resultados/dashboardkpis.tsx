@@ -64,6 +64,7 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
     const [currentExtralaboral,setCurrentExtralaboral] = useState<Array<Schema["FormularioExtralaboral"]["type"]>>([]);
     const [currentEstres,setCurrentEstres] = useState<Array<Schema["FormularioEstres"]["type"]>>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [isDownloading, setIsDownloading] = useState(false);
     const fetchInitialData = async () => {
         setIsLoading(true);
         try {
@@ -213,13 +214,11 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
       }));
     };
     const handleDownloadWord = async () => {
+      setIsDownloading(true);
       try {
 
         const elementoACapturar = document.getElementById('imagenheader') as HTMLElement;
-        
-           
         elementoACapturar.style.display = 'block';
-  
 
       // Realizar la captura
         const canvas = await html2canvas(elementoACapturar,{
@@ -228,12 +227,7 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
           backgroundColor: null,
           logging: false,
           //  allowTaint: true
-          onclone: (doc) => {
-            const elements = doc.getElementsByClassName('chart-container');
-            for (const el of Array.from(elements)) {
-              (el as HTMLElement).style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
-            }
-          }
+          
         });
         elementoACapturar.style.display = 'none';
         
@@ -250,18 +244,37 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
                 new ImageRun({
                   data: arrayBuffer,
                   transformation: {
-                    width:  canvas.width /2,
-                    height: canvas.height /2
+                    width:  canvas.width ,
+                    height: canvas.height
                   },
                   type: "png"
-                } as any)
+                } as any),
+                
               ],
               alignment: AlignmentType.LEFT,
             }),
           ],
         });
         
-         
+        const firmaACapturar = document.getElementById('imagenfirma') as HTMLElement;
+        firmaACapturar.style.display = 'block';
+
+      // Realizar la captura
+        const canvasfirma = await html2canvas(firmaACapturar,{
+          scale: 1, // Increases resolution
+          useCORS: true,
+          backgroundColor: null,
+          logging: false,
+          //  allowTaint: true
+          
+        });
+        firmaACapturar.style.display = 'none';
+        
+        const blobfirma = await new Promise<Blob>((resolve) => {
+          canvasfirma.toBlob((blob) => resolve(blob!), 'image/png');
+        });
+
+        const arrayBufferFirma = await blobfirma.arrayBuffer();
          
         
         // const watermarkImageData = await fetch('/public/assets/materialdescarga/waetermark.png').then(res => res.arrayBuffer());
@@ -364,7 +377,7 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
               children: [
                 new TextRun({
                   text: `Con el fin de preservar la salud mental de los trabajadores, con la identificación, evaluación, prevención, intervención y monitoreo permanente de la exposición a factores de riesgo psicosocial en el trabajo y para la determinación del origen de las patologías causadas por el estrés ocupacional, se aplicó la batería de Riesgo Psicosocial, con el fin de cumplir satisfactoriamente en el marco normativo establecido en Colombia para tal fin, en tal razón, se hace necesario desplegar acciones que permitan mitigar y controlar este riesgo que afecta de manera significativa en la población trabajadora de la empresa, y de esta forma contribuir en la mejora continua del riesgo psicosocial en el personal que labora tanto en la parte operativa con en la parte administrativa y operativa en ${nombreEmpresa?.textContent}`,
-                  size: 25,
+                  size: 23,
                   
               }),],
   
@@ -390,7 +403,7 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             children:[
               new TextRun({
                 text: 'Objetivos General',
-                size: 25,
+                size: 23,
             }),],
             spacing: {
               after: 400,
@@ -400,7 +413,7 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             children:[
               new TextRun({
                 text: `Identificar los factores protectores y de riesgo psicosocial de la empresa  ${nombreEmpresa?.textContent} y las directrices generales para el plan de acción a seguir a fin de mitigar el riesgo evaluado. `,
-                size: 25,
+                size: 23,
             }),],
             alignment: AlignmentType.JUSTIFIED,
             spacing: {
@@ -408,7 +421,11 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             },
           }),
           new Paragraph({
-            text: 'Objetivos Específicos',
+            children:[
+              new TextRun({
+                text: 'Objetivos Específicos',
+                size: 23,
+            }),],
             spacing: {
               after: 400,
             },
@@ -417,7 +434,7 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             children:[
               new TextRun({
                 text: `1. Determinar los factores psicosociales que tienen mayor impacto sobre los trabajadores que laboran en ${nombreEmpresa?.textContent}`,
-                size: 25,
+                size: 23,
             }),],
             alignment: AlignmentType.JUSTIFIED,
             bullet: { level: 0 },
@@ -429,7 +446,7 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             children:[
               new TextRun({
                  text: '2. Plantear las estrategias de gestión del riesgo intralaboral, extra laboral, estrés identificado a partir de la Estrategia de abordaje Psicosocial que mejoren las condiciones de trabajo y garanticen la disminución del riesgo.',
-                size: 25,
+                size: 23,
             }),],
             bullet: { level: 0 },
             alignment: AlignmentType.JUSTIFIED,
@@ -455,7 +472,7 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             children:[
               new TextRun({
                 text: 'En la actualidad, el riesgo psicosocial tiene mucha relevancia debido a la  normatividad existente en Colombia, lo cual se dispone en la resolución 2646 del  año 2008 y Resolución 2404 de 2019, mediante la cual se establecen disposiciones que definen responsabilidades para el empleador para identificar, prevenir, intervenir , evaluar y realizar un monitoreo constante de los factores de riesgo psicosocial que puedan estar afectando en el trabajo para identificar posibles patologías que traen como consecuencia altos niveles de estrés y factores extra e intra laborales y así mismo desplegar acciones para mitigar, todo lo anterior con la finalidad de contribuir a la calidad de vida laboral, clima organizacional, bienestar entre otros, y finalmente evitar las sanciones administrativas por el incumplimiento legal, Capitulo V. Disposiciones Finales, articulo 21, Sanciones. “incumplimiento a lo establecido en la presente resolución será sancionado, de conformidad con lo dispuesto en los literales a) y c) del artículo 91 del Decreto-ley 1295 de 1994. La investigación administrativa y la sanción serán de competencia de las Direcciones Territoriales del Ministerio de la Protección Social, de conformidad con lo previsto en el artículo 115 del Decreto-ley 2150 de 1995, articulo 13 de la Ley 1562 de 2012, en armonía con el capítulo 11 del título 4 de la parte 2 del Libro 2 del Decreto 1072 de 2015. La investigación administrativa y la sanción serán de competencia de las Direcciones territoriales del Ministerio del Trabajo en los términos del mencionado artículo 91 del Decreto 1295 de 1994, sin perjuicio del poder preferente de que trata el artículo 32 de la Ley 1562 de 2012.',
-                size: 25,
+                size: 23,
             }),],
             alignment: AlignmentType.JUSTIFIED,
             spacing: {
@@ -482,7 +499,7 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
                 i) agentes de riesgo, para facilitar la prevención de enfermedades en las actividades laborales, y
                 ii) grupos de enfermedades, para determinar el diagnóstico médico en los trabajadores afectados.
                 Resolución 2404 de 2019. “Por la cual se adopta la Batería de Instrumentos para la Evaluación de factores de Riesgo Psicosocial, la Guía Técnica General para la Promoción, Prevención e Intervención de los factores psicosociales y sus efectos en la población trabajadora y sus protocolos específicos y se dictan otras  disposiciones.`,
-                size: 25,
+                size: 23,
             }),],
            alignment: AlignmentType.JUSTIFIED,
             spacing: {
@@ -503,12 +520,12 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             children: [
                 new TextRun({
                     text: "Fase I. Administración de Cuestionarios.",
-                    size: 25,
+                    size: 23,
                     
                 }),
                 new TextRun({
                   text: `En esta fase se aplica la herramienta a 193 colaboradores pertenecientes a ${nombreEmpresa?.textContent} de los cuales 154 son hombres y 39 mujeres. El instrumento aplicado fue la batería para la identificación de factores de riesgo psicosocial con los cuestionarios:`,
-                  size: 25,
+                  size: 23,
                   
               }),
             ],
@@ -518,7 +535,7 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             children: [
                 new TextRun({
                     text: "Intralaboral (Forma A para supervisores o jefes y forma B que cumplen actividades de auxiliares u operarios)",
-                    size: 25,
+                    size: 23,
                     
                 }),
             ],
@@ -530,7 +547,7 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             children: [
                 new TextRun({
                     text: "Cuestionario de factores de riesgo psicosocial extralaboral.",
-                    size: 25,
+                    size: 23,
                     
                 }),
             ],
@@ -542,7 +559,7 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             children: [
                 new TextRun({
                     text: "Cuestionario para la evaluación del estrés.",
-                    size: 25,
+                    size: 23,
                     
                 }),
             ],
@@ -554,7 +571,7 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             children: [
                 new TextRun({
                     text: "	De igual forma se administra la ficha de datos generales, la cual permite caracterizar la población trabajadora tanto del entorno operativo como administrativo",
-                    size: 25,
+                    size: 23,
                     
                 }),
             ],
@@ -567,17 +584,17 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             children: [
                 new TextRun({
                     text: "Fase II. Resultados y generación de reportes.",
-                    size: 25,
+                    size: 23,
                     
                 }),
                 new TextRun({
                   text: "Se califica los cuestionarios que se han aplicado para crear la base de datos, se tabulan los resultados a través de la aplicación web www.riesgospsicosociales.com.co, creada para tal fin, de acuerdo con ello, se genera el presente informe analítico.",
-                  size: 25,
+                  size: 23,
                   
               }),
                 new TextRun({
                   text: "Se realizó la tabulación y análisis de la información a través de la aplicación de instrumento, el cual recopila la percepción del trabajador de los factores de riesgo psicosocial, y consiste en la calificación de los siguientes criterios:",
-                  size: 25,
+                  size: 23,
                   
               }),
             ],
@@ -587,7 +604,7 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             children: [
                 new TextRun({
                     text: "Riesgo Muy Alto - Alto: Intervención inmediata en el marco de un SISTEMA DE VIGILANCIA EPIDEMIOLÓGICA.",
-                    size: 25,
+                    size: 23,
                     
                 }),
             ],
@@ -599,7 +616,7 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             children: [
                 new TextRun({
                     text: "Riesgo medio: Nivel de riesgo en el que se esperaría una respuesta de estrés moderada. Las dimensiones que se encuentren bajo esta categoría ameritan observación y acciones sistemáticas de intervención para prevenir efectos perjudiciales en la salud.",
-                    size: 25,
+                    size: 23,
                     
                 }),
             ],
@@ -611,7 +628,7 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             children: [
                 new TextRun({
                     text: "Riesgo Bajo - Despreciable: No se espera que los factores psicosociales que obtengan puntuaciones de este nivel estén relacionados con síntomas o respuestas de estrés significativas. Las dimensiones que se encuentren bajo esta categoría serán objeto de acciones o programas de intervención, a fin de mantenerlos en los niveles de riesgo más bajos posibles.",
-                    size: 25,
+                    size: 23,
                     
                 }),
             ],
@@ -623,7 +640,7 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             children: [
                 new TextRun({
                     text: "Se califica los cuestionarios que se han aplicado para crear la base de datos, se         tabulan los resultados a través de la aplicación we www.riesgospsicosociales.com.co, creada para tal fin, de acuerdo con ello, se genera el presente informe analítico.",
-                    size: 25,
+                    size: 23,
                     
                 }),
             ],
@@ -636,12 +653,12 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             children: [
                 new TextRun({
                     text: "Fase III. Análisis de datos.",
-                    size: 25,
+                    size: 23,
                     
                 }),
                 new TextRun({
                   text: `A partir de la consolidación de la información, se aplican las fórmulas indicadas en el Manual General de la Batería de Instrumentos para la Evaluación de los  7 Factores de Riesgo Psicosocial para calcular el nivel de riesgo por cada uno de los  cuestionarios aplicados y de acuerdo con ello, se lleva a cabo el análisis  respectivo al comportamiento del riesgo psicosocial de ${nombreEmpresa?.textContent}`,
-                  size: 25,
+                  size: 23,
                   
               }),
             ],
@@ -651,12 +668,12 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             children: [
                 new TextRun({
                     text: "Fase IV. Generación del plan de acción.",
-                    size: 25,
+                    size: 23,
                     
                 }),
                 new TextRun({
                   text: "Posterior al análisis del perfil de riesgo, se obtienen pautas para plantear un plan de trabajo que permita realizar prevención y control del riesgo identificado, de forma efectiva. Este se debe orientar para cada Grupo de Trabajo de acuerdo con las características del riesgo, atendiendo a las necesidades específicas que presenta cada nivel de atención en cada una.",
-                  size: 25,
+                  size: 23,
                   
               }),
             ],
@@ -673,41 +690,54 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             spacing: {
               after: 400,
             },
+            
           
           }),
           new Paragraph({
             children: [
                 new TextRun({
                     text: "El estudio se realizó de manera general, y todas las conclusiones presentadas en este informe se encuentran fundamentadas en la Batería de Instrumentos para la Evaluación de Factores de riesgo Psicosocial entregada por el Ministerio de Protección Social en el año 2010.",
-                    size: 25,
+                    size: 23,
                 })
             ],
+            spacing: {
+              after: 400,
+            },
             alignment: AlignmentType.JUSTIFIED,
           }),
           new Paragraph({
               children: [
                   new TextRun({
                       text: "En Reconocimiento En referencia a los principios y estrategias planteados por la Unión Europea y la OMS (2008) para la prevención y control de los factores de riesgo psicosocial en el trabajo, se proponen las siguientes estrategias de promoción y prevención clasificadas según los dominios de factores de riesgo psicosocial:",
-                      size: 25,
+                      size: 23,
                   })
               ],
+              spacing: {
+                after: 400,
+              },
               alignment: AlignmentType.JUSTIFIED,
           }),
           new Paragraph({
               children: [
                   new TextRun({
                       text: "RETROALIMENTACION DEL DESEMPEÑO",
-                      size: 25,
+                      size: 23,
                   })
               ],
+              spacing: {
+                after: 400,
+              },
           }),
           new Paragraph({
             children: [
                 new TextRun({
                     text: "Revisar el procedimiento para la evaluación del desempeño implementado en la empresa y ajustarlo en caso de ser necesario.",
-                    size: 25,
+                    size: 23,
                 })
             ],
+            spacing: {
+              after: 400,
+            },
             bullet: { level: 0 },
             alignment: AlignmentType.JUSTIFIED,
           }),
@@ -716,136 +746,179 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
                 new TextRun({
                     text: "Capacitar al equipo de líderes en evaluación del desempeño y construcción de planes de mejoramiento individual con los colaboradores Construir con el Área de Talento Humano el procedimiento interno para hacer seguimiento a los planes de mejoramiento individual de los colaboradores.",
 
-                    size: 25,
+                    size: 23,
                 })
             ],
+            
             bullet: { level: 0 },
             alignment: AlignmentType.JUSTIFIED,
+            spacing: {
+              after: 400,
+            },
           }),
           new Paragraph({
             children: [
                 new TextRun({
                     text: "Capacitar a los líderes en estrategias de retroalimentación asertivas y de motivación para el personal.",
-                    size: 25,
+                    size: 23,
                 })
             ],
             bullet: { level: 0 },
             alignment: AlignmentType.JUSTIFIED,
+            spacing: {
+              after: 400,
+            },
           }),
           new Paragraph({
             children: [
                 new TextRun({
                     text:  "Implementar plan de incentivos y reconocimientos por buen desempeño.",
-                    size: 25,
+                    size: 23,
                 })
             ],
             bullet: { level: 0 },
             alignment: AlignmentType.JUSTIFIED,
+            spacing: {
+              after: 400,
+            },
           }),
    
           new Paragraph({
               children: [
                   new TextRun({
                       text: "INFLUENCIA DEL TRABAJO POR EL ENTORNO EXTRALABORAL:",
-                      size: 25,
+                      size: 23,
                       
                   })
-              ],            
+              ],   
+              spacing: {
+                after: 400,
+              },         
           }),
           new Paragraph({
             children: [ new TextRun({
                       text: "Para este dominio se recomienda intervenir mediante un programa de manejo adecuado del tiempo, actividades y las relaciones interpersonales dentro y fuera del trabajo.",
-                      size: 25,
+                      size: 23,
                       
             })
             ],
               bullet: { level: 0 },
               alignment: AlignmentType.JUSTIFIED,
+              spacing: {
+                after: 400,
+              },
           }),
           new Paragraph({
             children: [ new TextRun({
                 text: "CONSISTENCIA DEL ROL:",
-                size: 25,
+                size: 23,
                 
             })
             ],
+            spacing: {
+              after: 400,
+            },
         
           }),
           new Paragraph({
             children: [ new TextRun({
-              size: 25,
+              size: 23,
               
               text: "Establecer un método en el cual los empleados puedan dar sus opiniones en términos de mejora de las condiciones laborales que conlleven a mejorar los niveles de productividad.",
               })
               ],
               bullet: { level: 0 },
               alignment: AlignmentType.JUSTIFIED,
+              spacing: {
+                after: 400,
+              },
           }),
           new Paragraph({
             children: [ new TextRun({
-              size: 25,
+              size: 23,
               text: "RECOMPENSAS",
               
               })
               ],
+              spacing: {
+                after: 400,
+              },
              
           }),
           new Paragraph({
             children: [
                 new TextRun({
                     text:  "Revisar la escala salarial y estudiar la posibilidad de hacer ajustes de acuerdo con el desempeño y las competencias de los colaboradores.",
-                    size: 25,
+                    size: 23,
                 })
             ],
             bullet: { level: 0 },
             alignment: AlignmentType.JUSTIFIED,
+            spacing: {
+              after: 400,
+            },
           }),
           new Paragraph({
             children: [
                 new TextRun({
                     text:  "Ofrecer incentivos económicos por buen desempeño.",
-                    size: 25,
+                    size: 23,
                 })
             ],
             bullet: { level: 0 },
             alignment: AlignmentType.JUSTIFIED,
+            spacing: {
+              after: 400,
+            },
           }),
           new Paragraph({
             children: [
                 new TextRun({
                     text:   "Fortalecer los servicios ofrecidos a través del programa de Bienestar laboral.",
-                    size: 25,
+                    size: 23,
                 })
             ],
             bullet: { level: 0 },
             alignment: AlignmentType.JUSTIFIED,
+            spacing: {
+              after: 400,
+            },
           }),
         
           new Paragraph({
             children: [ new TextRun({
-              size: 25,
+              size: 23,
               
               text: "TIEMPO FUERA DEL TRABAJO:",
               })
               ],
+              spacing: {
+                after: 400,
+              },
           }),
           new Paragraph({
             children: [
                 new TextRun({
                     text:   "Optimizar el tiempo que se está con la familia y amigos",
-                    size: 25,
+                    size: 23,
                 })
             ],
             bullet: { level: 0 },
             alignment: AlignmentType.JUSTIFIED,
+            spacing: {
+              after: 400,
+            },
           }),
           new Paragraph({
             children: [
                 new TextRun({
                     text:   "Realizar actividades lúdicas y recreativas",
-                    size: 25,
+                    size: 23,
                 })
             ],
+            spacing: {
+              after: 400,
+            },
             bullet: { level: 0 },
             alignment: AlignmentType.JUSTIFIED,
           }),
@@ -853,61 +926,86 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             children: [
                 new TextRun({
                     text:   "Generar procesos donde se puedan crear habilidades nuevas y potencializar las que ya están.",
-                    size: 25,
+                    size: 23,
                 })
             ],
             bullet: { level: 0 },
             alignment: AlignmentType.JUSTIFIED,
+            spacing: {
+              after: 400,
+            },
           }),
           
           new Paragraph({
             children: [ new TextRun({
-              size: 25,
+              size: 23,
               
               text: "DESPLAZAMIENTO VIVIENDA / TRABAJO / VIVIENDA:",
               })
               ],
+              spacing: {
+                after: 400,
+              },
           }),
           new Paragraph({
             children: [
                 new TextRun({
                     text:    "En lo posible flexibilizar horarios de trabajo",
-                    size: 25,
+                    size: 23,
                 })
             ],
             bullet: { level: 0 },
             alignment: AlignmentType.JUSTIFIED,
+            spacing: {
+              after: 400,
+            },
           }),
           new Paragraph({
             children: [
                 new TextRun({
                     text:   "Rutas empresariales",
-                    size: 25,
+                    size: 23,
                 })
             ],
             bullet: { level: 0 },
             alignment: AlignmentType.JUSTIFIED,
+            spacing: {
+              after: 400,
+            },
           }),
           new Paragraph({
             children: [
+              new ImageRun({
+                data: arrayBufferFirma,
+                transformation: {
+                  width:  canvasfirma.width ,
+                  height: canvasfirma.height
+                },
+                type: "png"
+              } as any),
+              new TextRun({
+                text: "_________________________________________",
+                size: 23, // El tamaño se especifica en half-points (2 = 1pt), así que 30 = 15pt
+                break: 1
+              }),
               new TextRun({
                 text: "Yury Paola Ochoa Díaz",
-                size: 25, // El tamaño se especifica en half-points (2 = 1pt), así que 30 = 15pt
+                size: 23, // El tamaño se especifica en half-points (2 = 1pt), así que 30 = 15pt
                 break: 1
               }),
               new TextRun({
                 text: "Psicóloga",
-                size: 25,
+                size: 23,
                 break: 1
               }),
               new TextRun({
                 text: "Esp. Gerencia en salud y seguridad en el trabajo",
-                size: 25,
+                size: 23,
                 break: 1
               }),
               new TextRun({
                 text: "Licencia 3861/2020",
-                size: 25,
+                size: 23,
                 break: 1
               })
             ],
@@ -984,7 +1082,13 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
                   ]
                 }),
                 new Paragraph({
-                  text: textoAAgregar,
+                  children: [
+                    new TextRun({
+                      text: textoAAgregar,
+                      size: 23,
+                      break: 1
+                    })
+                  ],
                   alignment: AlignmentType.CENTER,
                 }),
 
@@ -1089,7 +1193,11 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
         link.click();
         document.body.removeChild(link);
         window.URL.revokeObjectURL(url);
+        setIsDownloading(false);
+
       } catch (error) {
+        setIsDownloading(false);
+
         console.error('Error generating Word document:', error);
       }
     };
@@ -1115,10 +1223,19 @@ export default function DasboardPrincipalA({citaActual,empresanit}:{citaActual:s
             </button>
             <button 
               onClick={handleDownloadWord}
-              className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors bg-green-500 text-white  hover:text-green-500"
-          >
-              <Download className="w-5 h-5  transition-colors" />
-          </button>
+              disabled={isDownloading}
+              className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors
+                ${isDownloading 
+                  ? 'bg-gray-300 cursor-not-allowed' 
+                  : 'bg-green-500 hover:bg-gray-100 text-white hover:text-green-500'
+                }`}
+            >
+              {isDownloading ? (
+                <div className="w-5 h-5 border-2 border-gray-500 border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <Download className="w-5 h-5 transition-colors" />
+              )}
+            </button>
             <h1 className="text-3xl font-bold text-gray-800">DASHBOARD DE LA CITA {citaActual}</h1>
           <button 
                 onClick={handleEstres}
